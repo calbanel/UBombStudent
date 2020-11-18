@@ -27,8 +27,8 @@ public enum ImageResource {
     DOORPREVOPENED("door_opened.png"),
     DOORNEXTOPENED("door_opened.png"),
     DOORNEXTCLOSED("door_closed.png"),
+    PRINCESS("bomberwoman.png"),
     ;
-
     private final String FileName;
 
     ImageResource(String fileName) {
