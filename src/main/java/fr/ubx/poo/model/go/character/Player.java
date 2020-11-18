@@ -6,7 +6,7 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.Damage;
+import fr.ubx.poo.game.PlayerDamage;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.GameObject;
@@ -61,7 +61,7 @@ public class Player extends GameObject implements Movable {
     }
 
     public void doMove(Direction direction) {
-        Damage damage = new Damage();
+        PlayerDamage damage = new PlayerDamage();
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
         Decor decor = game.getWorld().get(nextPos);
