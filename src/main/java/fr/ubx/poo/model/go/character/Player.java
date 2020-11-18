@@ -16,7 +16,7 @@ import java.util.function.BiConsumer;
 
 public class Player extends GameObject implements Movable {
 
-    private final boolean alive = true;
+    private boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
     private int lives;
@@ -66,7 +66,9 @@ public class Player extends GameObject implements Movable {
         setPosition(nextPos);
         Decor decor = game.getWorld().get(nextPos);
         if(decor instanceof Monster) {
-            damage.take(this);
+            if(damage.take(this)){
+                this.alive = false;
+            }
         }
 
     }
