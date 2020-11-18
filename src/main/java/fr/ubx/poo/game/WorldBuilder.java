@@ -52,6 +52,8 @@ public class WorldBuilder {
                 return new BombNumberInc();
             case BombNumberDec:
                 return new BombNumberDec();
+            case Monster:
+                return new Monster();
             default:
                 return null;
         }
