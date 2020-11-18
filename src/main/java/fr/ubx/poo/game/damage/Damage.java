@@ -1,4 +1,4 @@
-package fr.ubx.poo.game;
+package fr.ubx.poo.game.damage;
 
 import fr.ubx.poo.model.go.character.Player;
 
