@@ -7,6 +7,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -41,8 +42,15 @@ public class Player extends GameObject implements Movable {
 
     @Override
     public boolean canMove(Direction direction) {
+        boolean canMove;
         Position nextPos = direction.nextPosition(getPosition());
-        return nextPos.inside(game.getWorld().dimension);
+        Decor decor = game.getWorld().get(nextPos);
+        canMove = nextPos.inside(game.getWorld().dimension);
+        if(decor instanceof Tree ||decor instanceof Stone )
+            canMove = false;
+        if(decor instanceof Box ) //plus tard il ramassera la caisse
+            canMove = false;
+        return canMove;
     }
 
     public void doMove(Direction direction) {
