@@ -6,17 +6,20 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.Damage;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
+
+import java.util.function.BiConsumer;
 
 public class Player extends GameObject implements Movable {
 
     private final boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
-    private int lives = 1;
+    private int lives;
     private boolean winner;
 
     public Player(Game game, Position position) {
@@ -27,6 +30,10 @@ public class Player extends GameObject implements Movable {
 
     public int getLives() {
         return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     public Direction getDirection() {
@@ -54,8 +61,14 @@ public class Player extends GameObject implements Movable {
     }
 
     public void doMove(Direction direction) {
+        Damage damage = new Damage();
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        Decor decor = game.getWorld().get(nextPos);
+        if(decor instanceof Monster) {
+            damage.take(this);
+        }
+
     }
 
     public void update(long now) {
