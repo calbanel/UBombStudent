@@ -43,8 +43,14 @@ public abstract class Alive extends GameObject implements Movable {
         canMove = nextPos.inside(game.getWorld().dimension);
 
         Decor decor = game.getWorld().get(nextPos);
-        if (decor != null)
-            canMove = decor.canWalkOn();
+        if (decor != null) {
+            if(this.isPlayer())
+                canMove = decor.canWalkOn();
+            else
+                canMove = decor.monsterCanWalkOn();
+
+        }
+
 
         return canMove;
     }

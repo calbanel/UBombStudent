@@ -12,11 +12,12 @@ import fr.ubx.poo.model.go.character.Player;
 /***
  * A decor is an element that does not know its own position in the grid.
  */
-public class Decor extends Entity {
+public abstract class Decor extends Entity {
     public boolean canWalkOn(){
         return true;
     }
-    public void trigger(Player player, World world){
-        System.out.println("This decor isn't finish yet.");
+    public boolean monsterCanWalkOn(){
+        return canWalkOn();
     }
+    public abstract void trigger(Player player, World world);
 }
