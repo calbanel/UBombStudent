@@ -13,6 +13,8 @@ import fr.ubx.poo.game.gridevent.PrincessGridEvent;
 import fr.ubx.poo.model.Entity;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
+import fr.ubx.poo.model.decor.triggerdecor.Monster;
+import fr.ubx.poo.model.decor.triggerdecor.Princess;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -68,20 +70,10 @@ public class Player extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        whatOnNextCase(game.getWorld().get(nextPos));
+        Decor decor = game.getWorld().get(nextPos);
+        if(decor != null)
+            decor.trigger(this);
 
-    }
-
-    private void whatOnNextCase(Entity entity){
-        GridEvent gridEvent = null;
-
-        if(entity instanceof Monster)
-            gridEvent = new MonsterGridEvent();
-        if(entity instanceof Princess )
-            gridEvent = new PrincessGridEvent();
-
-        if (gridEvent != null)
-            gridEvent.trigger(this);
     }
 
     public void update(long now) {

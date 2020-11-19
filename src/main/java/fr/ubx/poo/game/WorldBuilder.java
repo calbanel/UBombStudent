@@ -2,8 +2,10 @@ package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
+import fr.ubx.poo.model.decor.obstructdecor.DoorNextClosed;
 import fr.ubx.poo.model.decor.obstructdecor.Stone;
 import fr.ubx.poo.model.decor.obstructdecor.Tree;
+import fr.ubx.poo.model.decor.triggerdecor.*;
 
 import java.util.Hashtable;
 import java.util.Map;
