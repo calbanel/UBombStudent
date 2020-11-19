@@ -20,7 +20,7 @@ public class Monster extends Alive {
 
     public void update(long now){
         Direction random = direction.random();
-        if(now - lastUpdate >= 600000000){
+        if(now - lastUpdate >= 1000000000){
             while(!canMove(random))
                 random = direction.random();
 

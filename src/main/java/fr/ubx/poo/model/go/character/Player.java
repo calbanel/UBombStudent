@@ -7,15 +7,13 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.damage.PlayerDamage;
-import fr.ubx.poo.model.Movable;
-import fr.ubx.poo.model.decor.*;
-import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 public class Player extends Alive {
 
     private int bombNb;
     private int bombRange;
+    private int keysNb;
     private boolean winner;
     private boolean moveRequested = false;
 
@@ -23,6 +21,15 @@ public class Player extends Alive {
         super(game, position, game.getInitPlayerLives());
         this.bombNb = 1;
         this.bombRange = 1;
+        this.keysNb = 0;
+    }
+
+    public int getKeysNb() {
+        return keysNb;
+    }
+
+    public void setKeysNb(int keysNb) {
+        this.keysNb = keysNb;
     }
 
     public int getBombNb() {

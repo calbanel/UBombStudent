@@ -10,7 +10,6 @@ import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.sprite.SpriteMonster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -39,8 +38,8 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private ArrayList<Monster> monsters = new ArrayList<>();
-    private ArrayList<Sprite> spritesMonster = new ArrayList<>();
+    private final ArrayList<Monster> monsters;
+    private final ArrayList<Sprite> spritesMonster = new ArrayList<>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
