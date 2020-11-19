@@ -13,6 +13,7 @@ import fr.ubx.poo.model.decor.obstructdecor.DoorNextClosed;
 import fr.ubx.poo.model.decor.obstructdecor.Stone;
 import fr.ubx.poo.model.decor.obstructdecor.Tree;
 import fr.ubx.poo.model.decor.triggerdecor.*;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
@@ -48,8 +49,6 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(BOMB_NUMBER_INC), position);
         if (decor instanceof BombNumberDec)
             return new SpriteDecor(layer, factory.get(BOMB_NUMBER_DEC), position);
-        if (decor instanceof Monster)
-            return new SpriteDecor(layer, factory.get(MONSTER), position);
         return null;
     }
 
