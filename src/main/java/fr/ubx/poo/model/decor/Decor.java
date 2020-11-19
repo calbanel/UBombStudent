@@ -15,6 +15,6 @@ public class Decor extends Entity {
         return true;
     }
     public void trigger(Player player){
-        System.out.println("Error trigger on obstruct decor");
+        System.out.println("This decor isn't finish yet.");
     }
 }

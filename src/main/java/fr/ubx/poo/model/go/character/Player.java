@@ -24,12 +24,16 @@ public class Player extends GameObject implements Movable {
     Direction direction;
     private boolean moveRequested = false;
     private int lives;
+    private int bombNb;
+    private int bombRange;
     private boolean winner;
 
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.S;
         this.lives = game.getInitPlayerLives();
+        this.bombNb = 1;
+        this.bombRange = 1;
     }
 
     public int getLives() {
