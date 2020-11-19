@@ -48,8 +48,16 @@ public class Player extends GameObject implements Movable {
         return bombNb;
     }
 
+    public void setBombNb(int bombNb) {
+        this.bombNb = bombNb;
+    }
+
     public int getBombRange() {
         return bombRange;
+    }
+
+    public void setBombRange(int bombRange) {
+        this.bombRange = bombRange;
     }
 
     public Direction getDirection() {
