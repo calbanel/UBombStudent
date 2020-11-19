@@ -9,6 +9,8 @@ import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
 
+import java.util.ArrayList;
+
 public abstract class Alive extends GameObject implements Movable {
     private boolean alive = true;
     Direction direction;
@@ -59,9 +61,11 @@ public abstract class Alive extends GameObject implements Movable {
         if(decor != null)
             decor.trigger(this, world);
 
-        /*Monster monster = game.getMonster();
-        if(nextPos.equals(monster.getPosition()))
-            walkOnMonster();*/
+        ArrayList<Monster> monsters = game.getMonster();
+        for (Monster monster : monsters) {
+            if (nextPos.equals(monster.getPosition()))
+                walkOnMonster();
+        }
 
         Player player = game.getPlayer();
         if(nextPos.equals(player.getPosition()))
