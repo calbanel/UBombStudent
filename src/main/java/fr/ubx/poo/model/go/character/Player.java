@@ -56,15 +56,6 @@ public class Player extends Alive {
         moveRequested = true;
     }
 
-    public void walkOnMonster(){
-        PlayerDamage damage = new PlayerDamage();
-        damage.take(this);
-    }
-
-    public void walkOnPlayer(Player player){
-
-    }
-
     public void update(long now) {
         if (moveRequested) {
             if (canMove(direction)) {
@@ -72,6 +63,15 @@ public class Player extends Alive {
             }
         }
         moveRequested = false;
+    }
+
+    public void walkOnMonster(){
+        PlayerDamage damage = new PlayerDamage();
+        damage.take(this);
+    }
+
+    public void walkOnPlayer(Player player){
+
     }
 
     public boolean isPlayer(){

@@ -39,4 +39,6 @@ public class Monster extends Alive {
         PlayerDamage damage = new PlayerDamage();
         damage.take(player);
     }
+
+
 }

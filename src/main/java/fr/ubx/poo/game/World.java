@@ -6,7 +6,9 @@ package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -32,15 +34,19 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public Position findMonster() throws PositionNotFoundException {
+    public ArrayList<Position> findMonster() throws PositionNotFoundException {
+        ArrayList<Position> positions = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Monster) {
-                    return new Position(x, y);
+                    positions.add(new Position(x,y));
                 }
             }
         }
-        throw new PositionNotFoundException("Monster");
+        if (positions.isEmpty())
+            throw new PositionNotFoundException("Monster");
+        else
+            return positions;
     }
 
     public Decor get(Position position) {

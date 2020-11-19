@@ -10,6 +10,7 @@ import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.sprite.SpriteMonster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -32,20 +33,20 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final Monster monster;
     private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private Sprite spriteMonster;
+    private ArrayList<Monster> monsters = new ArrayList<>();
+    private ArrayList<Sprite> spritesMonster = new ArrayList<>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
-        this.monster = game.getMonster();
+        this.monsters = game.getMonster();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -73,7 +74,7 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        spriteMonster = SpriteFactory.createMonster(layer, monster);
+        monsters.forEach( (monster) -> spritesMonster.add(SpriteFactory.createMonster(layer,monster)));
 
     }
 
@@ -136,9 +137,11 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
-        monster.update(now);
+        for(Monster monster : monsters){
+            monster.update(now);
+        }
 
-        if (player.isAlive() == false) {
+        if (!player.isAlive()) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
@@ -150,7 +153,7 @@ public final class GameEngine {
 
     private void render() {
         sprites.forEach(Sprite::render);
-        spriteMonster.render();
+        spritesMonster.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
     }
