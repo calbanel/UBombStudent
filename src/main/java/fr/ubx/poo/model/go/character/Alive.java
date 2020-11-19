@@ -61,44 +61,10 @@ public abstract class Alive extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        moveConsequence();
+        moveConsequence(game.getWorld());
     }
 
-    private void moveConsequence(){
-
-        World world = game.getWorld();
-        if (this.isPlayer()) {
-
-            Decor decor = world.get(this.getPosition());
-            if (decor != null) {
-                Player player = (Player) this;
-                decor.trigger(player, world);
-            }
-
-            ArrayList<Monster> monsters = game.getMonster();
-            for (Monster monster : monsters) {
-                if (this.getPosition().equals(monster.getPosition()))
-                    walkOnMonster();
-            }
-        }
-
-        if(this.isMonster()) {
-            Player player = game.getPlayer();
-            if (this.getPosition().equals(player.getPosition()))
-                walkOnPlayer(player);
-        }
-    }
-
-    private void walkOnMonster(){
-        Player player = (Player) this;
-        PlayerDamage damage = new PlayerDamage();
-        damage.take(player);
-    }
-
-    private void walkOnPlayer(Player player){
-        PlayerDamage damage = new PlayerDamage();
-        damage.take(player);
-    }
+    protected abstract void moveConsequence(World world);
 
     public abstract void update(long now);
 

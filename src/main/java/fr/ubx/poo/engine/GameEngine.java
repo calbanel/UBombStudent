@@ -151,12 +151,14 @@ public final class GameEngine {
     }
 
     private void render() {
+        // refresh of decor sprites
         sprites.forEach(Sprite::remove);
         sprites.clear();
         if(sprites.isEmpty()) {
             game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         }
         sprites.forEach(Sprite::render);
+        // rendering of the monsters
         spritesMonster.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();

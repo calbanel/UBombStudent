@@ -6,8 +6,12 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.decor.Decor;
+
+import java.util.ArrayList;
 
 public class Player extends Alive {
 
@@ -72,6 +76,24 @@ public class Player extends Alive {
         moveRequested = false;
     }
 
+    protected void moveConsequence(World world){
+
+            Decor decor = world.get(this.getPosition());
+            if (decor != null) {
+                decor.trigger(this, world);
+            }
+
+            ArrayList<Monster> monsters = game.getMonster();
+            for (Monster monster : monsters) {
+                if (this.getPosition().equals(monster.getPosition()))
+                    walkOnMonster();
+            }
+    }
+
+    private void walkOnMonster(){
+        PlayerDamage damage = new PlayerDamage();
+        damage.take(this);
+    }
 
     public boolean isPlayer(){
         return true;

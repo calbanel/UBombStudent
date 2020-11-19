@@ -19,4 +19,7 @@ public abstract class Decor extends Entity {
         return canWalkOn();
     }
     public abstract void trigger(Player player, World world);
+    public boolean isBox(){
+        return false;
+    }
 }

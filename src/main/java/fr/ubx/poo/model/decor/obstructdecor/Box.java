@@ -7,5 +7,10 @@ public class Box extends ObstructDecor {
     public String toString() {
         return "Box";
     }
+
+    @Override
+    public boolean isBox(){
+        return true;
+    }
 }
 
