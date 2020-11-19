@@ -40,7 +40,7 @@ public class World {
                 }
             }
         }
-        throw new PositionNotFoundException("Player");
+        throw new PositionNotFoundException("Monster");
     }
 
     public Decor get(Position position) {

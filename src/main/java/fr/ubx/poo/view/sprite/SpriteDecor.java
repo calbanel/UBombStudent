@@ -1,6 +1,7 @@
 package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 

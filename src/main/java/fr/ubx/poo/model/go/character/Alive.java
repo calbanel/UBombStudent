@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
@@ -52,9 +53,11 @@ public abstract class Alive extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        Decor decor = game.getWorld().get(nextPos);
+        World world = game.getWorld();
+
+        Decor decor = world.get(nextPos);
         if(decor != null)
-            decor.trigger(this);
+            decor.trigger(this, world);
     }
 
     public abstract void update(long now);

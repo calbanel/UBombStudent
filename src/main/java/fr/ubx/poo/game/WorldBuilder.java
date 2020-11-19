@@ -6,7 +6,6 @@ import fr.ubx.poo.model.decor.obstructdecor.DoorNextClosed;
 import fr.ubx.poo.model.decor.obstructdecor.Stone;
 import fr.ubx.poo.model.decor.obstructdecor.Tree;
 import fr.ubx.poo.model.decor.triggerdecor.*;
-import fr.ubx.poo.model.go.character.Monster;
 
 import java.util.Hashtable;
 import java.util.Map;
