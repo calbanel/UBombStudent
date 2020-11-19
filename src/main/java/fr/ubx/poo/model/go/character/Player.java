@@ -72,14 +72,6 @@ public class Player extends Alive {
         moveRequested = false;
     }
 
-    public void walkOnMonster(){
-        PlayerDamage damage = new PlayerDamage();
-        damage.take(this);
-    }
-
-    public void walkOnPlayer(Player player){
-
-    }
 
     public boolean isPlayer(){
         return true;

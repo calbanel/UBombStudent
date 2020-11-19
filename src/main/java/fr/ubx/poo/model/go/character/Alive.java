@@ -4,6 +4,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
+import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.GameObject;
@@ -60,30 +61,44 @@ public abstract class Alive extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        World world = game.getWorld();
+        moveConsequence();
+    }
 
-        Decor decor = world.get(nextPos);
-        if(decor != null)
-            if (this.isPlayer()) {
+    private void moveConsequence(){
+
+        World world = game.getWorld();
+        if (this.isPlayer()) {
+
+            Decor decor = world.get(this.getPosition());
+            if (decor != null) {
                 Player player = (Player) this;
                 decor.trigger(player, world);
             }
 
-        ArrayList<Monster> monsters = game.getMonster();
-        for (Monster monster : monsters) {
-            if (nextPos.equals(monster.getPosition()))
-                walkOnMonster();
+            ArrayList<Monster> monsters = game.getMonster();
+            for (Monster monster : monsters) {
+                if (this.getPosition().equals(monster.getPosition()))
+                    walkOnMonster();
+            }
         }
 
-        Player player = game.getPlayer();
-        if(nextPos.equals(player.getPosition()))
-            walkOnPlayer(player);
-
+        if(this.isMonster()) {
+            Player player = game.getPlayer();
+            if (this.getPosition().equals(player.getPosition()))
+                walkOnPlayer(player);
+        }
     }
 
-    public abstract void walkOnMonster();
+    private void walkOnMonster(){
+        Player player = (Player) this;
+        PlayerDamage damage = new PlayerDamage();
+        damage.take(player);
+    }
 
-    public abstract void walkOnPlayer(Player player);
+    private void walkOnPlayer(Player player){
+        PlayerDamage damage = new PlayerDamage();
+        damage.take(player);
+    }
 
     public abstract void update(long now);
 
@@ -96,4 +111,5 @@ public abstract class Alive extends GameObject implements Movable {
     }
 
     public boolean isPlayer() {return false;}
+    public boolean isMonster() {return false;}
 }

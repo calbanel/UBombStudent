@@ -31,14 +31,7 @@ public class Monster extends Alive {
 
     }
 
-    public void walkOnMonster(){
-
-    }
-
-    public void walkOnPlayer(Player player){
-        PlayerDamage damage = new PlayerDamage();
-        damage.take(player);
-    }
+    public boolean isMonster() {return true;}
 
 
 }
