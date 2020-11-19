@@ -1,7 +1,6 @@
 package fr.ubx.poo.model.decor.triggerdecor;
 
 import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Key extends TriggerDecor {
@@ -11,7 +10,8 @@ public class Key extends TriggerDecor {
     }
 
     public void trigger(Player player, World world) {
-        System.out.println("not implemented yet");
+        player.setKeysNb(player.getKeysNb()+1);
+        world.clear(player.getPosition());
     }
 }
 
