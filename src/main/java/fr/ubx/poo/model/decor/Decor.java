@@ -6,7 +6,6 @@ package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.go.character.Alive;
 import fr.ubx.poo.model.go.character.Player;
 
 /***
@@ -16,7 +15,7 @@ public abstract class Decor extends Entity {
     public boolean canWalkOn(){
         return true;
     }
-    public boolean monsterCanWalkOn(){
+    public boolean nonPlayerCanWalkOn(){
         return canWalkOn();
     }
     public abstract void trigger(Player player, World world);

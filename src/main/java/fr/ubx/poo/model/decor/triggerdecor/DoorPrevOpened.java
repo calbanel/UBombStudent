@@ -9,7 +9,7 @@ public class DoorPrevOpened extends TriggerDecor{
         return "DoorPrevOpened";
     }
 
-    public boolean monsterCanWalkOn() {
+    public boolean nonPlayerCanWalkOn() {
         return false;
     }
 

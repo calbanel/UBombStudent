@@ -9,8 +9,7 @@ public class DoorNextOpened extends TriggerDecor{
         return "DoorNextOpened";
     }
 
-    @Override
-    public boolean monsterCanWalkOn() {
+    public boolean nonPlayerCanWalkOn() {
         return false;
     }
 
