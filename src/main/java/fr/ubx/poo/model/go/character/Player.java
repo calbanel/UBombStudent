@@ -96,7 +96,7 @@ public class Player extends Alive {
         boolean canMove = decor.canWalkOn();
         if (decor.isBox()){
             Box box = (Box) decor;
-            canMove = box.move(this.getDirection(),getPosition(),game.getWorld());
+            canMove = box.move(this.direction, direction.nextPosition(getPosition()), game);
         }
         return canMove;
     }
