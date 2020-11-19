@@ -58,7 +58,20 @@ public abstract class Alive extends GameObject implements Movable {
         Decor decor = world.get(nextPos);
         if(decor != null)
             decor.trigger(this, world);
+
+        Monster monster = game.getMonster();
+        if(nextPos.equals(monster.getPosition()))
+            walkOnMonster();
+
+        Player player = game.getPlayer();
+        if(nextPos.equals(player.getPosition()))
+            walkOnPlayer(player);
+
     }
+
+    public abstract void walkOnMonster();
+
+    public abstract void walkOnPlayer(Player player);
 
     public abstract void update(long now);
 
