@@ -52,13 +52,14 @@ public class Player extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         boolean canMove;
+
         Position nextPos = direction.nextPosition(getPosition());
-        Decor decor = game.getWorld().get(nextPos);
         canMove = nextPos.inside(game.getWorld().dimension);
-        if(decor instanceof Tree ||decor instanceof Stone )
-            canMove = false;
-        if(decor instanceof Box ) //plus tard il ramassera la caisse
-            canMove = false;
+
+        Decor decor = game.getWorld().get(nextPos);
+        if (decor != null)
+            canMove = decor.canWalkOn();
+
         return canMove;
     }
 

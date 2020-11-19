@@ -2,10 +2,10 @@
  * Copyright (c) 2020. Laurent Réveillère
  */
 
-package fr.ubx.poo.model.decor;
+package fr.ubx.poo.model.decor.obstructdecor;
 
 
-public class Tree extends Decor {
+public class Tree extends ObstructDecor {
     @Override
     public String toString() {
         return "Tree";
