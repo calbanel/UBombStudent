@@ -45,26 +45,23 @@ public abstract class Alive extends GameObject implements Movable {
 
         Decor decor = game.getWorld().get(nextPos);
         if (decor != null) {
-            if(this.isPlayer())
-                canMove = decor.canWalkOn();
-            else
-                canMove = decor.nonPlayerCanWalkOn();
+            canMove = canMoveOnDecor(decor);
 
         }
-
-
         return canMove;
     }
+
+    protected abstract boolean canMoveOnDecor(Decor decor);
 
     public void doMove(Direction direction) {
 
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        moveConsequence(game.getWorld());
+        moveConsequence();
     }
 
-    protected abstract void moveConsequence(World world);
+    protected abstract void moveConsequence();
 
     public abstract void update(long now);
 
@@ -77,5 +74,4 @@ public abstract class Alive extends GameObject implements Movable {
     }
 
     public boolean isPlayer() {return false;}
-    public boolean isMonster() {return false;}
 }

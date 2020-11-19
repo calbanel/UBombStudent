@@ -35,12 +35,17 @@ public class Monster extends Alive {
 
     }
 
-    protected void moveConsequence(World world){
+    protected void moveConsequence(){
 
             Player player = game.getPlayer();
             if (this.getPosition().equals(player.getPosition()))
                 walkOnPlayer(player);
 
+    }
+
+    @Override
+    protected boolean canMoveOnDecor(Decor decor) {
+        return decor.nonPlayerCanWalkOn();
     }
 
     private void walkOnPlayer(Player player){
