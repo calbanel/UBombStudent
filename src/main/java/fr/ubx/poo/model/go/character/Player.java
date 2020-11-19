@@ -44,6 +44,14 @@ public class Player extends GameObject implements Movable {
         this.lives = lives;
     }
 
+    public int getBombNb() {
+        return bombNb;
+    }
+
+    public int getBombRange() {
+        return bombRange;
+    }
+
     public Direction getDirection() {
         return direction;
     }
