@@ -37,6 +37,7 @@ public abstract class Alive extends GameObject implements Movable {
         boolean canMove;
 
         Position nextPos = direction.nextPosition(getPosition());
+
         canMove = nextPos.inside(game.getWorld().dimension);
 
         Decor decor = game.getWorld().get(nextPos);
@@ -47,7 +48,7 @@ public abstract class Alive extends GameObject implements Movable {
     }
 
     public void doMove(Direction direction) {
-        PlayerDamage damage = new PlayerDamage();
+
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 

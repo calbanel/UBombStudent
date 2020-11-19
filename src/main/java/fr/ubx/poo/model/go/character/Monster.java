@@ -1,14 +1,13 @@
 package fr.ubx.poo.model.go.character;
 
+import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.gridevent.GridEvent;
-import fr.ubx.poo.game.gridevent.MonsterGridEvent;
-import fr.ubx.poo.model.Entity;
-import fr.ubx.poo.model.decor.triggerdecor.TriggerDecor;
-import fr.ubx.poo.model.go.character.Player;
 
 public class Monster extends Alive {
+
+    private long lastUpdate = 0;
+
     @Override
     public String toString() {
         return "Monster";
@@ -19,6 +18,15 @@ public class Monster extends Alive {
     }
 
     public void update(long now){
-        System.out.println("Test");
+        Direction random = direction.random();
+        if(now - lastUpdate >= 600000000){
+            while(!canMove(random))
+                random = direction.random();
+
+            this.direction = random;
+            doMove(random);
+            lastUpdate = now;
+        }
+
     }
 }

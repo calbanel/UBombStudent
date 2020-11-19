@@ -11,12 +11,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
 
     private final World world;
     private final Player player;
+    private final Monster monster;
     private final String worldPath;
     public int initPlayerLives;
 
@@ -25,9 +27,12 @@ public class Game {
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer = null;
+        Position positionMonster = null;
         try {
             positionPlayer = world.findPlayer();
+            positionMonster = world.findMonster();
             player = new Player(this, positionPlayer);
+            monster = new Monster(this, positionMonster);
         } catch (PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -55,6 +60,10 @@ public class Game {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public Monster getMonster() {
+        return this.monster;
     }
 
 
