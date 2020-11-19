@@ -10,6 +10,7 @@ public class Heart extends TriggerDecor{
     }
 
     public void trigger(Player player, World world) {
-        System.out.println("not implemented yet");
+        player.setLives(player.getLives()+1);
+        world.clear(player.getPosition());
     }
 }
