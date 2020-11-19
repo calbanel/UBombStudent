@@ -9,7 +9,8 @@ public class BombRangeInc extends TriggerDecor{
         return "BombRangeInc";
     }
 
-    public void trigger(Player player, World world) {
-        System.out.println("not implemented yet");
+    public void trigger(Player player, World world) { //n'influe pas sur les bombes déjà posées
+        player.setBombRange(player.getBombRange()+1);
+        world.clear(player.getPosition());
     }
 }

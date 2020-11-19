@@ -12,7 +12,6 @@ public class BombNumberInc extends TriggerDecor{
         return "BombNumberInc";
     }
 
-    @Override
     public void trigger(Player player, World world) {
         player.setBombNb(player.getBombNb()+1);
         world.clear(player.getPosition());
