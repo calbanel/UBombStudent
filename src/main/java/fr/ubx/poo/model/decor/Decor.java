@@ -5,6 +5,7 @@
 package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.model.go.character.Alive;
 import fr.ubx.poo.model.go.character.Player;
 
 /***
@@ -14,7 +15,7 @@ public class Decor extends Entity {
     public boolean canWalkOn(){
         return true;
     }
-    public void trigger(Player player){
+    public void trigger(Alive alive){
         System.out.println("This decor isn't finish yet.");
     }
 }

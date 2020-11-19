@@ -65,5 +65,9 @@ public class Player extends Alive {
         moveRequested = false;
     }
 
+    public boolean isPlayer(){
+        return true;
+    }
+
 
 }

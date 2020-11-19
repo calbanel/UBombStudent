@@ -52,9 +52,9 @@ public abstract class Alive extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
 
-        /*Decor decor = game.getWorld().get(nextPos);
+        Decor decor = game.getWorld().get(nextPos);
         if(decor != null)
-            decor.trigger(this);*/
+            decor.trigger(this);
     }
 
     public abstract void update(long now);
@@ -66,4 +66,6 @@ public abstract class Alive extends GameObject implements Movable {
     public boolean isAlive() {
         return alive;
     }
+
+    public boolean isPlayer() {return false;}
 }

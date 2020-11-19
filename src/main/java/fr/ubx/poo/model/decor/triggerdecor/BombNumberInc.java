@@ -1,9 +1,7 @@
 package fr.ubx.poo.model.decor.triggerdecor;
-import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.gridevent.BombNumberIncGridEvent;
-import fr.ubx.poo.game.gridevent.GridEvent;
-import fr.ubx.poo.model.Entity;
+import fr.ubx.poo.model.go.character.Alive;
 import fr.ubx.poo.model.go.character.Player;
+
 
 public class BombNumberInc extends TriggerDecor{
     @Override
@@ -12,8 +10,10 @@ public class BombNumberInc extends TriggerDecor{
     }
 
     @Override
-    public void trigger(Player player, Position position) {
-        BombNumberIncGridEvent gridEvent = new BombNumberIncGridEvent();
-        gridEvent.trigger(player, position);
+    public void trigger(Alive alive) {
+        if (alive.isPlayer()){
+            Player player = (Player) alive;
+            player.setBombNb(player.getBombNb()+1);
+        }
     }
 }
