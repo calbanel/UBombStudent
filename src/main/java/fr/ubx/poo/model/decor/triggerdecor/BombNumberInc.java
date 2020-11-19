@@ -13,13 +13,10 @@ public class BombNumberInc extends TriggerDecor{
     }
 
     @Override
-    public void trigger(Alive alive, World world) {
-        if (alive.isPlayer()){
-            Player player = (Player) alive;
+    public void trigger(Player player, World world) {
             player.setBombNb(player.getBombNb()+1);
             System.out.println(player.getPosition());
             world.clear(player.getPosition());
 
-        }
     }
 }

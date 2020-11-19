@@ -12,10 +12,7 @@ public class Princess extends TriggerDecor{
     }
 
     @Override
-    public void trigger(Alive alive, World world) {
-        if (alive.isPlayer()){
-            Player player = (Player) alive;
-            player.win();
-        }
+    public void trigger(Player player, World world) {
+        player.win();
     }
 }
