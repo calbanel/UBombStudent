@@ -38,12 +38,13 @@ public abstract class Alive extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         boolean canMove;
+        World world = game.getWorld();
 
         Position nextPos = direction.nextPosition(getPosition());
 
-        canMove = nextPos.inside(game.getWorld().dimension);
+        canMove = world.isInside(nextPos);
 
-        Decor decor = game.getWorld().get(nextPos);
+        Decor decor = world.get(nextPos);
         if (decor != null) {
             canMove = canMoveOnDecor(decor);
 
