@@ -3,14 +3,10 @@ import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Player;
 
-public class DoorNextOpened extends TriggerDecor{
+public class DoorNextOpened extends DoorOpened{
     @Override
     public String toString() {
         return "DoorNextOpened";
-    }
-
-    public boolean nonPlayerCanWalkOn() {
-        return false;
     }
 
     public void trigger(Player player, World world) {
