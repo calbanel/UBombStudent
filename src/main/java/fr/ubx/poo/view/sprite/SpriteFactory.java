@@ -13,6 +13,7 @@ import fr.ubx.poo.model.decor.obstructdecor.DoorNextClosed;
 import fr.ubx.poo.model.decor.obstructdecor.Stone;
 import fr.ubx.poo.model.decor.obstructdecor.Tree;
 import fr.ubx.poo.model.decor.triggerdecor.*;
+import fr.ubx.poo.model.go.character.Alive;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
@@ -52,11 +53,14 @@ public final class SpriteFactory {
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
-    public static Sprite createPlayer(Pane layer, Player player) {
-        return new SpritePlayer(layer, player);
-    }
-
-    public static Sprite createMonster(Pane layer, Monster monster) {
-        return new SpriteMonster(layer, monster);
+    public static Sprite createAlive(Pane layer, Alive alive) {
+        if (alive instanceof Player) {
+            Player player = (Player) alive;
+            return new SpritePlayer(layer, player);
+        }
+        else{
+            Monster monster = (Monster) alive;
+            return new SpriteMonster(layer, monster);
+        }
     }
 }

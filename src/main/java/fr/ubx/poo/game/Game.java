@@ -28,12 +28,12 @@ public class Game {
         this.worldPath = worldPath;
         loadConfig(worldPath);
         Position positionPlayer;
-        ArrayList<Position> positionMonster;
+        ArrayList<Position> positionMonsters;
         try {
             positionPlayer = world.findPlayer();
-            positionMonster = world.findMonster();
+            positionMonsters = world.findMonsters();
             player = new Player(this, positionPlayer);
-            for (Position pos : positionMonster) {
+            for (Position pos : positionMonsters) {
                 monsters.add(new Monster(this,pos));
             }
         } catch (PositionNotFoundException e) {
@@ -65,7 +65,7 @@ public class Game {
         return this.player;
     }
 
-    public ArrayList<Monster> getMonster() {
+    public ArrayList<Monster> getMonsters() {
         return this.monsters;
     }
 

@@ -9,11 +9,11 @@ import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.Pane;
 
-public class SpritePlayer extends SpriteGameObject {
+public class SpritePlayer extends SpriteAlive {
     private final ColorAdjust effect = new ColorAdjust();
 
     public SpritePlayer(Pane layer, Player player) {
-        super(layer, null, player);
+        super(layer, player);
         updateImage();
     }
 

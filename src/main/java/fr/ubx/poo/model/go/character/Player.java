@@ -84,7 +84,7 @@ public class Player extends Alive {
                 decor.trigger(this, game.getWorld());
             }
 
-            ArrayList<Monster> monsters = game.getMonster();
+            ArrayList<Monster> monsters = game.getMonsters();
             for (Monster monster : monsters) {
                 if (this.getPosition().equals(monster.getPosition()))
                     walkOnMonster();

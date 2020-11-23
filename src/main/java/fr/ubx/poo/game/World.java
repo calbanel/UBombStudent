@@ -36,7 +36,7 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public ArrayList<Position> findMonster() throws PositionNotFoundException {
+    public ArrayList<Position> findMonsters() throws PositionNotFoundException {
         ArrayList<Position> positions = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {

@@ -7,11 +7,10 @@ import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.Pane;
 
-public class SpriteMonster extends SpriteGameObject {
-    private final ColorAdjust effect = new ColorAdjust();
+public class SpriteMonster extends SpriteAlive {
 
     public SpriteMonster(Pane layer, Monster monster) {
-        super(layer, null, monster);
+        super(layer, monster);
         updateImage();
     }
 
