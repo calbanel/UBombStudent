@@ -4,13 +4,29 @@ import fr.ubx.poo.model.go.character.Player;
 
 public class PlayerDamage extends Damage{
     public void take(Player player) {
-        player.setLives(player.getLives() - 1);
-        isDie(player);
-    }
-
-    private void isDie(Player player){
-        if(player.getLives() == 0){
-            player.die();
+        if (!player.isInvincible()){
+            player.setLives(player.getLives() - 1);
+            newStatus(player);
         }
     }
+
+    private boolean isDie(Player player){
+        boolean isDie;
+        if(player.getLives() == 0){
+            isDie = true;
+        }
+        else
+            isDie = false;
+
+        return isDie;
+    }
+
+    private void newStatus(Player player){
+        if(!isDie(player)){
+            player.setInvincibility(true);
+        }
+        else
+            player.die();
+    }
+
 }

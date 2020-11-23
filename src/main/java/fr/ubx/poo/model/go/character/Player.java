@@ -21,6 +21,7 @@ public class Player extends Alive {
     private int keysNb;
     private boolean winner;
     private boolean moveRequested = false;
+    private boolean invincibility = false;
 
     public Player(Game game, Position position) {
         super(game, position, game.getInitPlayerLives());
@@ -69,12 +70,27 @@ public class Player extends Alive {
     }
 
     public void update(long now) {
+        if (invincibility)
+            updateInvincibility(now);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
             }
         }
         moveRequested = false;
+    }
+
+    private long i = 0;
+    private long lastUpdate = 0;
+    public void updateInvincibility(long now){
+        if(now - lastUpdate >= 2100000000){
+            i++;
+            if(i == 100) {
+                invincibility = false;
+                lastUpdate = now;
+                i = 0;
+            }
+        }
     }
 
     protected void moveConsequence(){
@@ -108,6 +124,14 @@ public class Player extends Alive {
 
     public boolean isPlayer(){
         return true;
+    }
+
+    public void setInvincibility(boolean invincibility){
+        this.invincibility = invincibility;
+    }
+
+    public boolean isInvincible(){
+        return invincibility;
     }
 
 
