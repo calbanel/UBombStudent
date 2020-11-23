@@ -22,6 +22,7 @@ public class Player extends Alive {
     private boolean winner;
     private boolean moveRequested = false;
     private boolean invincibility = false;
+    private static long lastUpdate = 0;
 
     public Player(Game game, Position position) {
         super(game, position, game.getInitPlayerLives());
@@ -81,7 +82,6 @@ public class Player extends Alive {
         moveRequested = true;
     }
 
-    private long lastUpdate = 0;
     public void update(long now) {
 
         if (invincibility)
