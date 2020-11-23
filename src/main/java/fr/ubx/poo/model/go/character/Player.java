@@ -62,6 +62,18 @@ public class Player extends Alive {
         return winner;
     }
 
+    public boolean isPlayer(){
+        return true;
+    }
+
+    public void setInvincibility(boolean invincibility){
+        this.invincibility = invincibility;
+    }
+
+    public boolean isInvincible(){
+        return invincibility;
+    }
+
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -69,9 +81,14 @@ public class Player extends Alive {
         moveRequested = true;
     }
 
+    private long lastUpdate = 0;
     public void update(long now) {
+
         if (invincibility)
             updateInvincibility(now);
+        else
+            lastUpdate = now; //have the time for each update
+
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
@@ -80,16 +97,10 @@ public class Player extends Alive {
         moveRequested = false;
     }
 
-    private long i = 0;
-    private long lastUpdate = 0;
     public void updateInvincibility(long now){
-        if(now - lastUpdate >= 2100000000){
-            i++;
-            if(i == 100) {
-                invincibility = false;
-                lastUpdate = now;
-                i = 0;
-            }
+        if(now - lastUpdate >= 1000000000L){ //1 second
+            invincibility = false;
+            lastUpdate = now;
         }
     }
 
@@ -120,18 +131,6 @@ public class Player extends Alive {
     private void walkOnMonster(){
         PlayerDamage damage = new PlayerDamage();
         damage.take(this);
-    }
-
-    public boolean isPlayer(){
-        return true;
-    }
-
-    public void setInvincibility(boolean invincibility){
-        this.invincibility = invincibility;
-    }
-
-    public boolean isInvincible(){
-        return invincibility;
     }
 
 
