@@ -5,13 +5,13 @@ package fr.ubx.poo.model.decor.obstructdecor;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
+import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Monster;
 
 import java.util.ArrayList;
 
-public class Box extends ObstructDecor {
+public class Box extends ObstructDecor implements Movable {
     @Override
     public String toString() {
         return "Box";
@@ -22,22 +22,23 @@ public class Box extends ObstructDecor {
         return true;
     }
 
+    private static Game game = null;
+    private static Position boxPos = null;
+
     public boolean move(Direction direction, Position boxPos, Game game){ //return true if the box is movable, false if is not
-        boolean canMove = false;
-        World world = game.getWorld();
-        Position nextPos = direction.nextPosition(boxPos);
+        this.game = game;
+        this.boxPos = boxPos;
 
-        if (boxCanMove(nextPos,game)) {
-            world.set(nextPos, this);
-            world.clear(boxPos);
-            canMove = true;
+        if (canMove(direction)){
+            doMove(direction);
+            return true;
         }
-
-        return canMove;
+        return false;
     }
 
-    private boolean boxCanMove(Position nextPos, Game game){
-
+    @Override
+    public boolean canMove(Direction direction) {
+        Position nextPos = direction.nextPosition(boxPos);
         if (!nextPos.inside(game.getWorld().dimension))
             return false;
 
@@ -52,6 +53,12 @@ public class Box extends ObstructDecor {
         }
 
         return true;
+    }
+
+    @Override
+    public void doMove(Direction direction) {
+        game.getWorld().set(direction.nextPosition(boxPos), this);
+        game.getWorld().clear(boxPos);
     }
 }
 
