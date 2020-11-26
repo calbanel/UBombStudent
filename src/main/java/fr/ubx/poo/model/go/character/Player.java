@@ -6,13 +6,11 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
 import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
 
-import java.util.ArrayList;
 
 public class Player extends Alive {
 
@@ -97,7 +95,7 @@ public class Player extends Alive {
         moveRequested = false;
     }
 
-    public void updateInvincibility(long now){
+    private void updateInvincibility(long now){
         if(now - lastUpdate >= 1000000000L){ //1 second
             invincibility = false;
             lastUpdate = now;
@@ -122,10 +120,39 @@ public class Player extends Alive {
         boolean canMove = decor.canWalkOn();
         if (decor.isBox()){
             Box box = (Box) decor;
-            canMove = box.move(this.direction, direction.nextPosition(getPosition()), game); //move return true if the box moved
+            canMove = boxMove(box); //move return true if the box moved
         }
         return canMove;
     }
+
+    private boolean boxMove(Box box){
+        Position boxPos = direction.nextPosition(getPosition());
+
+        if (boxCanMove(boxPos)){
+            box.move(boxPos, direction.nextPosition(boxPos), game);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean boxCanMove(Position boxPos){
+        Position nextPos = direction.nextPosition(boxPos);
+        if (!nextPos.inside(game.getWorld().dimension))
+            return false;
+
+        Decor decor = game.getWorld().get(nextPos);
+        if (decor != null)
+            return false;
+
+        //TODO faire une méthode dans Game pour détecter un GameObject
+        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(nextPos)).findAny().orElse(null);
+        if (monster != null)
+            return false;
+
+        return true;
+    }
+
+
 
     private void walkOnMonster(){
         PlayerDamage damage = new PlayerDamage();

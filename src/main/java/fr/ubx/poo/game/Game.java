@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 
@@ -67,6 +68,10 @@ public class Game {
 
     public ArrayList<Monster> getMonsters() {
         return this.monsters;
+    }
+
+    public GameObject getGameObjectAtPos(Position pos){
+        return null; //TODO
     }
 
 

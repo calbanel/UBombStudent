@@ -11,7 +11,7 @@ import fr.ubx.poo.model.go.character.Monster;
 
 import java.util.ArrayList;
 
-public class Box extends ObstructDecor implements Movable {
+public class Box extends ObstructDecor {
     @Override
     public String toString() {
         return "Box";
@@ -22,41 +22,9 @@ public class Box extends ObstructDecor implements Movable {
         return true;
     }
 
-    private static Game game = null;
-    private static Position boxPos = null;
-
-    public boolean move(Direction direction, Position boxPos, Game game){ //return true if the box is movable, false if is not
-        this.game = game;
-        this.boxPos = boxPos;
-
-        if (canMove(direction)){
-            doMove(direction);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean canMove(Direction direction) {
-        Position nextPos = direction.nextPosition(boxPos);
-        if (!nextPos.inside(game.getWorld().dimension))
-            return false;
-
-        Decor decor = game.getWorld().get(nextPos);
-        if (decor != null)
-            return false;
-
-        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(nextPos)).findAny().orElse(null);
-        if (monster != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public void doMove(Direction direction) {
-        game.getWorld().set(direction.nextPosition(boxPos), this);
-        game.getWorld().clear(boxPos);
+    public void move(Position pos, Position nextPos, Game game) {
+        game.getWorld().set(nextPos, this);
+        game.getWorld().clear(pos);
     }
 }
 
