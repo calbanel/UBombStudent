@@ -138,8 +138,7 @@ public class Player extends Alive {
         if (!nextPos.inside(game.getWorld().dimension))
             return false;
 
-        Decor decor = game.getWorld().get(nextPos);
-        if (decor != null)
+        if (!game.getWorld().isEmpty(nextPos))
             return false;
 
         //TODO faire une méthode dans Game pour détecter un GameObject
