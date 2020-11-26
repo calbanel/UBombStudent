@@ -1,7 +1,6 @@
 package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.model.go.character.Alive;
-import fr.ubx.poo.model.go.character.Player;
 import javafx.scene.layout.Pane;
 
 public abstract class SpriteAlive extends SpriteGameObject{

@@ -1,11 +1,7 @@
 package fr.ubx.poo.model.decor.triggerdecor;
-import fr.ubx.poo.engine.GameEngine;
-import fr.ubx.poo.game.World;
-import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.go.character.Alive;
-import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.view.sprite.Sprite;
 
+import fr.ubx.poo.game.World;
+import fr.ubx.poo.model.go.character.Player;
 
 public class BombNumberInc extends TriggerDecor{
     @Override

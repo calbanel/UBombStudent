@@ -109,9 +109,7 @@ public class Player extends Alive {
             decor.trigger(this, game.getWorld());
         }
 
-        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().orElse(null);
-        if (monster != null)
-            walkOnMonster();
+        game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().ifPresent(monster -> walkOnMonster());
 
     }
 
@@ -146,10 +144,7 @@ public class Player extends Alive {
 
         //TODO faire une méthode dans Game pour détecter un GameObject
         Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(nextPos)).findAny().orElse(null);
-        if (monster != null)
-            return false;
-
-        return true;
+        return monster == null;
     }
 
 

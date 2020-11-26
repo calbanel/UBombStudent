@@ -11,14 +11,7 @@ public class PlayerDamage extends Damage{
     }
 
     private boolean isDie(Player player){
-        boolean isDie;
-        if(player.getLives() == 0){
-            isDie = true;
-        }
-        else
-            isDie = false;
-
-        return isDie;
+        return player.getLives() == 0;
     }
 
     private void statusAfterDamage(Player player){
