@@ -6,7 +6,7 @@ public class PlayerDamage extends Damage{
     public void take(Player player) {
         if (!player.isInvincible()){
             player.setLives(player.getLives() - 1);
-            newStatus(player);
+            statusAfterDamage(player);
         }
     }
 
@@ -21,7 +21,7 @@ public class PlayerDamage extends Damage{
         return isDie;
     }
 
-    private void newStatus(Player player){
+    private void statusAfterDamage(Player player){
         if(!isDie(player)){
             player.setInvincibility(true);
         }

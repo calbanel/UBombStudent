@@ -87,7 +87,7 @@ public class Player extends Alive {
         if (invincibility)
             updateInvincibility(now);
         else
-            lastUpdate = now; //have the time for each update
+            lastUpdate = now; //collect the time at each update
 
         if (moveRequested) {
             if (canMove(direction)) {
@@ -106,16 +106,15 @@ public class Player extends Alive {
 
     protected void moveConsequence(){
 
-            Decor decor = game.getWorld().get(this.getPosition());
-            if (decor != null) {
-                decor.trigger(this, game.getWorld());
-            }
+        Decor decor = game.getWorld().get(this.getPosition());
+        if (decor != null) {
+            decor.trigger(this, game.getWorld());
+        }
 
-            ArrayList<Monster> monsters = game.getMonsters();
-            for (Monster monster : monsters) {
-                if (this.getPosition().equals(monster.getPosition()))
-                    walkOnMonster();
-            }
+        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().orElse(null);
+        if (monster != null)
+            walkOnMonster();
+
     }
 
     @Override
@@ -123,7 +122,7 @@ public class Player extends Alive {
         boolean canMove = decor.canWalkOn();
         if (decor.isBox()){
             Box box = (Box) decor;
-            canMove = box.move(this.direction, direction.nextPosition(getPosition()), game);
+            canMove = box.move(this.direction, direction.nextPosition(getPosition()), game); //move return true if the box moved
         }
         return canMove;
     }

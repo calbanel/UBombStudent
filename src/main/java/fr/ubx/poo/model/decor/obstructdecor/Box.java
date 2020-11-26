@@ -46,11 +46,9 @@ public class Box extends ObstructDecor implements Movable {
         if (decor != null)
             return false;
 
-        ArrayList<Monster> monsters = game.getMonsters();
-        for (Monster monster : monsters) {
-            if (nextPos.equals(monster.getPosition()))
-                return false;
-        }
+        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(nextPos)).findAny().orElse(null);
+        if (monster != null)
+            return false;
 
         return true;
     }
