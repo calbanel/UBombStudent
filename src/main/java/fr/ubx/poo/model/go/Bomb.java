@@ -1,8 +1,9 @@
 package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.game.damage.Damage;
+import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject {
 
@@ -35,7 +36,7 @@ public class Bomb extends GameObject {
         if (timer.getProgress() >= STATE3){
             state = 3;
         }
-        if(timer.isFinish()) {
+        if(timer.isFinish() && explode == false) {
             explosion();
         }
     }
@@ -45,29 +46,50 @@ public class Bomb extends GameObject {
     }
 
     public void explosion(){
+        explode = true;
         Position nextPos;
         Decor decor;
+        GameObject go;
+        PlayerDamage damage = new PlayerDamage();
         boolean obstacle;
+
         for(Direction direction : Direction.values()){
             nextPos = getPosition();
             obstacle = false;
-                for (int r = 1; r <= range; r++) {
-                    if (!obstacle) {
-                        nextPos = direction.nextPosition(nextPos);
 
-                        decor = world.get(nextPos);
-                        if (decor != null) {
-                            decor.destroy(world, nextPos);
-                            if (decor.isBox() || !decor.isDestructible()) {
-                                obstacle = true;
-                            }
+            for (int r = 1; r <= range; r++) {
+                if (!obstacle) {
+                    nextPos = direction.nextPosition(nextPos);
+
+                    decor = world.get(nextPos);
+                    if (decor != null) {
+                        decor.hitByBomb(world, nextPos);
+                        if (!decor.canWalkOn()) {
+                            obstacle = true;
                         }
                     }
 
+                    go = game.getGameObjectAtPos(nextPos);
+                    if(go != null)
+                    {
+                        if(go instanceof Bomb){
+                            Bomb bomb = (Bomb) go;
+                            if(!bomb.isExplode())
+                                bomb.explosion();
+                        }
+                        else{
+                            Player player = (Player) go;
+                            damage.take(player);
+                        }
+                    }
+
+
+
                 }
+            }
 
         }
-        explode = true;
+
         game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
     }
 

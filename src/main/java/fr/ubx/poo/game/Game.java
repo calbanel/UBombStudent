@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
@@ -71,7 +72,19 @@ public class Game {
     }
 
     public GameObject getGameObjectAtPos(Position pos){
-        return null; //TODO
+
+        if(player.getPosition().equals(pos))
+            return player;
+
+        Monster monster = monsters.stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
+        if(monster != null)
+            return monster;
+
+        Bomb bomb = player.getBombs().stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
+        if(bomb != null)
+            return bomb;
+
+        return null;
     }
 
 
