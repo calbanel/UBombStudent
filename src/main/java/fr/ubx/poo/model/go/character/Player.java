@@ -12,6 +12,7 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
 import fr.ubx.poo.model.go.Bomb;
+import fr.ubx.poo.model.go.GameObject;
 
 import java.util.ArrayList;
 
@@ -174,9 +175,8 @@ public class Player extends Alive {
         if (!game.getWorld().isEmpty(nextPos))
             return false;
 
-        //TODO faire une méthode dans Game pour détecter un GameObject
-        Monster monster = game.getMonsters().stream().filter(m -> m.getPosition().equals(nextPos)).findAny().orElse(null);
-        return monster == null;
+        GameObject go = game.getGameObjectAtPos(nextPos);
+        return go == null;
     }
 
 
