@@ -2,8 +2,8 @@ package fr.ubx.poo.game;
 
 public class Timer {
 
-    private long start;
-    private long time;
+    private final long start;
+    private final long time;
     private long progress;
     private boolean finish;
     private boolean launch;
@@ -18,10 +18,6 @@ public class Timer {
 
     public boolean isFinish() {
         return finish;
-    }
-
-    public boolean isLaunch() {
-        return launch;
     }
 
     public long getProgress() {
@@ -39,12 +35,5 @@ public class Timer {
         }
 
 
-    }
-
-    public void reset(long finish){
-        this.start = finish;
-        this.progress = finish;
-        this.finish = false;
-        this.launch = true;
     }
 }

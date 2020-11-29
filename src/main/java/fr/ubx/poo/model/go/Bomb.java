@@ -6,19 +6,18 @@ import fr.ubx.poo.game.damage.DamageOnMonster;
 import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.go.character.Alive;
-import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject {
 
-    private Timer timer;
+    private final Timer timer;
     private boolean explode;
     private final World world = game.getWorld();
-    private int range;
+    private final int range;
     private int state;
 
-    private final long STATE1 = 1000000000L;
-    private final long STATE2 = 2000000000L;
-    private final long STATE3 = 3000000000L;
+    private final static long STATE1 = 1000000000L;
+    private final static long STATE2 = 2000000000L;
+    private final static long STATE3 = 3000000000L;
 
     public Bomb(Game game, Position position, long now, int range) {
         super(game, position);
@@ -39,7 +38,7 @@ public class Bomb extends GameObject {
         if (timer.getProgress() >= STATE3){
             state = 3;
         }
-        if(timer.isFinish() && explode == false) {
+        if(timer.isFinish() && !explode) {
             explosion();
         }
     }
@@ -50,10 +49,10 @@ public class Bomb extends GameObject {
 
     public void explosion(){
         explode = true;
+
         Position nextPos;
         Decor decor;
         GameObject go;
-        Damage damage;
         boolean obstacle;
 
         for(Direction direction : Direction.values()){
@@ -61,47 +60,49 @@ public class Bomb extends GameObject {
             obstacle = false;
 
             for (int r = 1; r <= range; r++) {
+
                 if (!obstacle) {
                     nextPos = direction.nextPosition(nextPos);
 
                     decor = world.get(nextPos);
-                    if (decor != null) {
-                        decor.hitByBomb(world, nextPos);
-                        if (!decor.canWalkOn()) {
-                            obstacle = true;
-                        }
-                    }
+                    if (decor != null)
+                        obstacle = decorTouch(decor,nextPos);
 
                     go = game.getGameObjectAtPos(nextPos);
                     if(go != null)
-                    {
-                        if(go.isBomb()){
-                            Bomb bomb = (Bomb) go;
-                            if(!bomb.isExplode())
-                                bomb.explosion();
-                        }
-                        else {
-                            Alive alive = (Alive) go;
-                            if (go.isPlayer()) {
-                                damage = new DamageOnPlayer();
-                                damage.take(alive);
-                            }
-
-                            if (go.isMonster()) {
-                                damage = new DamageOnMonster();
-                                damage.take(alive);
-                            }
-                        }
-                    }
-
-
-
+                        gameObjectTouch(go);
                 }
+
             }
 
         }
-
         game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
+    }
+
+    private void gameObjectTouch(GameObject go){
+        Damage damage;
+        if(go.isBomb()){
+            Bomb bomb = (Bomb) go;
+            if(!bomb.isExplode())
+                bomb.explosion();
+        }
+        else {
+            Alive alive = (Alive) go;
+            if (go.isPlayer()) {
+                damage = new DamageOnPlayer();
+                damage.take(alive);
+            }
+
+            if (go.isMonster()) {
+                damage = new DamageOnMonster();
+                damage.take(alive);
+            }
+        }
+    }
+
+    private boolean decorTouch(Decor decor, Position nextPos){
+        decor.hitByBomb(world, nextPos);
+        return !decor.canWalkOn();
     }
 
     public boolean isExplode(){
