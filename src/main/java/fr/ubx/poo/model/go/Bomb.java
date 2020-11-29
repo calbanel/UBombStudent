@@ -80,16 +80,17 @@ public class Bomb extends GameObject {
                             if(!bomb.isExplode())
                                 bomb.explosion();
                         }
+                        else {
+                            Alive alive = (Alive) go;
+                            if (go.isPlayer()) {
+                                damage = new DamageOnPlayer();
+                                damage.take(alive);
+                            }
 
-                        Alive alive = (Alive) go;
-                        if(go.isPlayer()){
-                            damage = new DamageOnPlayer();
-                            damage.take(alive);
-                        }
-
-                        if(go.isMonster()){
-                            damage = new DamageOnMonster();
-                            damage.take(alive);
+                            if (go.isMonster()) {
+                                damage = new DamageOnMonster();
+                                damage.take(alive);
+                            }
                         }
                     }
 

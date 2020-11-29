@@ -14,4 +14,9 @@ public class Princess extends TriggerDecor{
     public void trigger(Player player, World world) {
         player.win();
     }
+
+    @Override
+    public boolean isDestructible() {
+        return false;
+    }
 }
