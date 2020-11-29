@@ -24,8 +24,9 @@ public class BombTimer {
 
         if (now - lastUpdate >= time) {
             finish = true;
+            lastUpdate = now;
         }
-        lastUpdate = now;
+
 
     }
 }

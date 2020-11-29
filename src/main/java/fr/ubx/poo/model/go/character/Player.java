@@ -10,6 +10,9 @@ import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
+import fr.ubx.poo.model.go.Bomb;
+
+import java.util.ArrayList;
 
 
 public class Player extends Alive {
@@ -19,14 +22,17 @@ public class Player extends Alive {
     private int keysNb;
     private boolean winner;
     private boolean moveRequested = false;
-    private boolean invincibility = false;
+    private boolean invincibility;
     private static long lastUpdate = 0;
+    private ArrayList<Bomb> bombs;
 
     public Player(Game game, Position position) {
         super(game, position, game.getInitPlayerLives());
         this.bombNb = 1;
         this.bombRange = 1;
         this.keysNb = 0;
+        this.invincibility = false;
+        this.bombs = new ArrayList<>();
     }
 
     public int getKeysNb() {
@@ -81,6 +87,9 @@ public class Player extends Alive {
     }
 
     public void update(long now) {
+
+        bombs.forEach(b -> b.update(now));
+        bombs.removeIf(b -> b.isExplode());
 
         if (invincibility)
             updateInvincibility(now);
@@ -151,6 +160,14 @@ public class Player extends Alive {
     private void walkOnMonster(){
         PlayerDamage damage = new PlayerDamage();
         damage.take(this);
+    }
+
+    public void newBomb(){
+        bombs.add(new Bomb(game,getPosition(),lastUpdate));
+    }
+
+    public ArrayList<Bomb> getBombs(){
+        return bombs;
     }
 
 

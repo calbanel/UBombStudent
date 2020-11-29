@@ -71,8 +71,8 @@ public final class GameEngine {
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
         game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-        spritesAlive.add(SpriteFactory.createAlive(layer, player));
-        monsters.forEach( (monster) -> spritesAlive.add(SpriteFactory.createAlive(layer,monster)));
+        spritesAlive.add(SpriteFactory.createGO(layer, player));
+        monsters.forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
 
     }
 
@@ -109,6 +109,9 @@ public final class GameEngine {
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
+        }
+        if (input.isBomb()) {
+            player.newBomb();
         }
         input.clear();
     }
@@ -159,7 +162,9 @@ public final class GameEngine {
             game.getWorld().changeDone();
         }
         // rendering of the monsters and player
+        player.getBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));
         spritesAlive.forEach(Sprite::render);
+
     }
 
     public void start() {
