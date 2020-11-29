@@ -40,44 +40,6 @@ public class Player extends Alive {
         this.bombs = new ArrayList<>();
     }
 
-    public int getKeysNb() {
-        return keysNb;
-    }
-
-    public void setKeysNb(int keysNb) {
-        this.keysNb = keysNb;
-    }
-
-    public int getBombNb() {
-        return bombNb;
-    }
-
-    public void setBombNb(int bombNb) {
-        this.bombNb = bombNb;
-    }
-
-    public int getBombBag() {
-        return bombBag;
-    }
-
-    public void setBombBag(int bombBag) {
-        if(bombBag <= 0){
-            bombBag = 0;
-        }
-        if (bombBag >= bombNb)
-            this.bombBag = bombNb;
-        else
-            this.bombBag = bombBag;
-    }
-
-    public int getBombRange() {
-        return bombRange;
-    }
-
-    public void setBombRange(int bombRange) {
-        this.bombRange = bombRange;
-    }
-
     public void win(){
         winner = true;
     }
@@ -90,42 +52,16 @@ public class Player extends Alive {
         return true;
     }
 
-    public void setInvincibility(boolean invincibility){
-        this.invincibility = invincibility;
-    }
-
-    public boolean isInvincible(){
-        return invincibility;
-    }
-
-    public void requestMove(Direction direction) {
-        if (direction != this.direction) {
-            this.direction = direction;
-        }
-        moveRequested = true;
-    }
-
     public void update(long now) {
 
         //SAVE THE UPDATE TIME
         lastUpdate = now;
 
         //BOMBS GESTION
-        if(!bombs.isEmpty()) {
-            bombs.forEach(b -> b.update(now));
-            bombs.removeIf(b -> b.isExplode());
-        }
+        bombsUpdate(now);
 
         //INVINCIBILITY GESTION
-        if (invincibility){
-            if(invincibilityTimer == null)
-                invincibilityTimer = new Timer(now,1000000000L);
-            invincibilityTimer.update(now);
-            if(invincibilityTimer.isFinish()){
-                invincibility = false;
-                invincibilityTimer = null;
-            }
-        }
+        invincibilityUpdate(now);
 
         //PLAYER MOVE GESTION
         if (moveRequested) {
@@ -134,6 +70,16 @@ public class Player extends Alive {
             }
         }
         moveRequested = false;
+    }
+
+
+    //PLAYER MOVEMENT
+
+    public void requestMove(Direction direction) {
+        if (direction != this.direction) {
+            this.direction = direction;
+        }
+        moveRequested = true;
     }
 
     protected void moveConsequence(){
@@ -156,6 +102,32 @@ public class Player extends Alive {
         }
         return canMove;
     }
+
+
+    //INVINCIBILITY
+
+    private void invincibilityUpdate(long now){
+        if (invincibility){
+            if(invincibilityTimer == null)
+                invincibilityTimer = new Timer(now,1000000000L);
+            invincibilityTimer.update(now);
+            if(invincibilityTimer.isFinish()){
+                invincibility = false;
+                invincibilityTimer = null;
+            }
+        }
+    }
+
+    public void setInvincibility(boolean invincibility){
+        this.invincibility = invincibility;
+    }
+
+    public boolean isInvincible(){
+        return invincibility;
+    }
+
+
+    //BOX MOVE
 
     private boolean boxMove(Box box){
         Position boxPos = direction.nextPosition(getPosition());
@@ -180,10 +152,48 @@ public class Player extends Alive {
     }
 
 
+    //MONSTERS
 
     private void walkOnMonster(){
         DamageOnPlayer damage = new DamageOnPlayer();
         damage.take(this);
+    }
+
+
+    //BOMBS
+
+    public int getBombNb() {
+        return bombNb;
+    }
+
+    public void setBombNb(int bombNb) {
+        this.bombNb = bombNb;
+    }
+
+    public int getBombBag() {
+        return bombBag;
+    }
+
+    public void setBombBag(int bombBag) {
+        if(bombBag <= 0){
+            bombBag = 0;
+        }
+        this.bombBag = Math.min(bombBag, bombNb);
+    }
+
+    public int getBombRange() {
+        return bombRange;
+    }
+
+    public void setBombRange(int bombRange) {
+        this.bombRange = bombRange;
+    }
+
+    private void bombsUpdate(long now){
+        if(!bombs.isEmpty()) {
+            bombs.forEach(b -> b.update(now));
+            bombs.removeIf(Bomb::isExplode);
+        }
     }
 
     public void newBomb(){
@@ -198,5 +208,15 @@ public class Player extends Alive {
         return bombs;
     }
 
+
+    //WORLDS
+
+    public int getKeysNb() {
+        return keysNb;
+    }
+
+    public void setKeysNb(int keysNb) {
+        this.keysNb = keysNb;
+    }
 
 }
