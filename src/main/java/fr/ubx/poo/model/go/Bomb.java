@@ -1,8 +1,11 @@
 package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.game.damage.PlayerDamage;
+import fr.ubx.poo.game.damage.Damage;
+import fr.ubx.poo.game.damage.DamageOnMonster;
+import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Alive;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject {
@@ -50,7 +53,7 @@ public class Bomb extends GameObject {
         Position nextPos;
         Decor decor;
         GameObject go;
-        PlayerDamage damage = new PlayerDamage();
+        Damage damage;
         boolean obstacle;
 
         for(Direction direction : Direction.values()){
@@ -72,14 +75,21 @@ public class Bomb extends GameObject {
                     go = game.getGameObjectAtPos(nextPos);
                     if(go != null)
                     {
-                        if(go instanceof Bomb){
+                        if(go.isBomb()){
                             Bomb bomb = (Bomb) go;
                             if(!bomb.isExplode())
                                 bomb.explosion();
                         }
-                        else{
-                            Player player = (Player) go;
-                            damage.take(player);
+
+                        Alive alive = (Alive) go;
+                        if(go.isPlayer()){
+                            damage = new DamageOnPlayer();
+                            damage.take(alive);
+                        }
+
+                        if(go.isMonster()){
+                            damage = new DamageOnMonster();
+                            damage.take(alive);
                         }
                     }
 
@@ -96,5 +106,7 @@ public class Bomb extends GameObject {
     public boolean isExplode(){
         return explode;
     }
+
+    public boolean isBomb() {return true;}
 
 }

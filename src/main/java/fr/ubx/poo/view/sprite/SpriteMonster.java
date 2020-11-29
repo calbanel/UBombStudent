@@ -15,6 +15,9 @@ public class SpriteMonster extends SpriteAlive {
     @Override
     public void updateImage() {
         Monster monster = (Monster) go;
-        setImage(ImageFactory.getInstance().getMonster(monster.getDirection()));
+        if(monster.isAlive())
+            setImage(ImageFactory.getInstance().getMonster(monster.getDirection()));
+        else
+            setImage(null);
     }
 }

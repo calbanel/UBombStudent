@@ -71,5 +71,4 @@ public abstract class Alive extends GameObject implements Movable {
         return alive;
     }
 
-    public boolean isPlayer() {return false;}
 }

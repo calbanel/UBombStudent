@@ -138,6 +138,8 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
+
+        monsters.removeIf(m -> !m.isAlive());
         monsters.forEach(m -> m.update(now));
 
         if (!player.isAlive()) {
