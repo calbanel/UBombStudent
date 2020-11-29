@@ -171,7 +171,8 @@ public class Player extends Alive {
     }
 
     public void newBomb(){
-        bombs.add(new Bomb(game,getPosition(),lastUpdate));
+        if (bombs.size() < bombNb)
+            bombs.add(new Bomb(game,getPosition(),lastUpdate,bombRange));
     }
 
     public ArrayList<Bomb> getBombs(){

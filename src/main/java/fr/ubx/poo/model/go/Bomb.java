@@ -10,18 +10,20 @@ public class Bomb extends GameObject {
     private Timer timer;
     private boolean explode;
     private World world;
+    private int range;
     private int state;
 
     private long STATE1 = 1000000000L;
     private long STATE2 = 2000000000L;
     private long STATE3 = 3000000000L;
 
-    public Bomb(Game game, Position position, long now) {
+    public Bomb(Game game, Position position, long now, int range) {
         super(game, position);
         this.timer = new Timer(now,4000000000L);
         this.explode = false;
         this.world = this.game.getWorld();
         this.state = 0;
+        this.range = range;
     }
 
     public void update(long now){
@@ -45,6 +47,7 @@ public class Bomb extends GameObject {
     }
 
     public void explosion(){
+
         explode = true;
     }
 
