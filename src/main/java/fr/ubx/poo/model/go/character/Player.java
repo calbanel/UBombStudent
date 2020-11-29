@@ -11,6 +11,7 @@ import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
+import fr.ubx.poo.model.decor.triggerdecor.TriggerDecor;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 
@@ -85,8 +86,9 @@ public class Player extends Alive {
     protected void moveConsequence(){
 
         Decor decor = game.getWorld().get(this.getPosition());
-        if (decor != null) {
-            decor.trigger(this, game.getWorld());
+        if (decor != null && decor.isTriggerDecor()) {
+            TriggerDecor tDecor = (TriggerDecor) decor;
+            tDecor.trigger(this, game.getWorld());
         }
 
         game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().ifPresent(monster -> walkOnMonster());
@@ -101,6 +103,11 @@ public class Player extends Alive {
             canMove = boxMove(box); //move return true if the box moved
         }
         return canMove;
+    }
+
+    private void walkOnMonster(){
+        DamageOnPlayer damage = new DamageOnPlayer();
+        damage.take(this);
     }
 
 
@@ -152,14 +159,6 @@ public class Player extends Alive {
     }
 
 
-    //MONSTERS
-
-    private void walkOnMonster(){
-        DamageOnPlayer damage = new DamageOnPlayer();
-        damage.take(this);
-    }
-
-
     //BOMBS
 
     public int getBombNb() {
@@ -192,7 +191,9 @@ public class Player extends Alive {
     private void bombsUpdate(long now){
         if(!bombs.isEmpty()) {
             bombs.forEach(b -> b.update(now));
-            bombs.removeIf(Bomb::isExplode);
+            System.out.println(bombs.size());
+            bombs.removeIf(Bomb::isCleared);
+            System.out.println(bombs.size());
         }
     }
 

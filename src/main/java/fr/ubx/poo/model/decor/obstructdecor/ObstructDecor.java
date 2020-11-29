@@ -8,9 +8,6 @@ public abstract class ObstructDecor extends Decor {
     public boolean canWalkOn(){
         return false;
     }
-    public void trigger(Player player, World world){
-        System.out.println("Error trigger on obstruct decor");
-    }
     public boolean isDestructible(){
         return false;
     }

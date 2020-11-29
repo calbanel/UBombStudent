@@ -19,12 +19,13 @@ public abstract class Decor extends Entity {
     public boolean nonPlayerCanWalkOn(){
         return canWalkOn();
     }
-    public abstract void trigger(Player player, World world);
     public boolean isBox(){
         return false;
     }
     public abstract boolean isDestructible();
-
+    public boolean isTriggerDecor(){
+        return false;
+    }
     public void hitByBomb(World world, Position position){
         if (this.isDestructible()){
             world.clear(position);

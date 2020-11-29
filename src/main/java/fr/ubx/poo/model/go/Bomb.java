@@ -5,6 +5,7 @@ import fr.ubx.poo.game.damage.Damage;
 import fr.ubx.poo.game.damage.DamageOnMonster;
 import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.go.character.Alive;
 
 public class Bomb extends GameObject {
@@ -19,28 +20,50 @@ public class Bomb extends GameObject {
     private final static long STATE2 = 2000000000L;
     private final static long STATE3 = 3000000000L;
 
+    private Timer clearTimer;
+    private boolean cleared;
+
     public Bomb(Game game, Position position, long now, int range) {
         super(game, position);
         this.timer = new Timer(now,4000000000L);
         this.explode = false;
         this.state = 0;
         this.range = range;
+        this.clearTimer = null;
+        this.cleared = false;
     }
 
     public void update(long now){
         timer.update(now);
+
         if (timer.getProgress() >= STATE1 && timer.getProgress() < STATE2){
             state = 1;
         }
+
         if (timer.getProgress() >= STATE2 && timer.getProgress() < STATE3){
             state = 2;
         }
+
         if (timer.getProgress() >= STATE3){
             state = 3;
         }
+
         if(timer.isFinish() && !explode) {
             explosion();
         }
+
+        if(explode && clearTimer == null){
+            clearTimer = new Timer(now, 300000000L);
+        }
+
+        if(clearTimer != null && !cleared) {
+            clearTimer.update(now);
+            if (clearTimer.isFinish()) {
+                clearExplosion();
+                cleared = true;
+            }
+        }
+
     }
 
     public int getState(){
@@ -48,6 +71,7 @@ public class Bomb extends GameObject {
     }
 
     public void explosion(){
+        System.out.println("yo");
         explode = true;
 
         Position nextPos;
@@ -62,11 +86,17 @@ public class Bomb extends GameObject {
             for (int r = 1; r <= range; r++) {
 
                 if (!obstacle) {
+
                     nextPos = direction.nextPosition(nextPos);
+
+                    if(!world.isInside(nextPos))
+                        obstacle = true;
 
                     decor = world.get(nextPos);
                     if (decor != null)
                         obstacle = decorTouch(decor,nextPos);
+                        if(!obstacle)
+                            world.set(nextPos, new Explosion());
 
                     go = game.getGameObjectAtPos(nextPos);
                     if(go != null)
@@ -77,6 +107,26 @@ public class Bomb extends GameObject {
 
         }
         game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
+
+
+    }
+
+    private void clearExplosion(){
+        Position nextPos;
+        Decor decor;
+
+        for(Direction direction : Direction.values()){
+            nextPos = getPosition();
+
+            for (int r = 1; r <= range; r++) {
+
+                nextPos = direction.nextPosition(nextPos);
+                decor = world.get(nextPos);
+                if (decor instanceof Explosion)
+                    world.clear(nextPos);
+            }
+
+        }
     }
 
     private void gameObjectTouch(GameObject go){
@@ -107,6 +157,10 @@ public class Bomb extends GameObject {
 
     public boolean isExplode(){
         return explode;
+    }
+
+    public boolean isCleared(){
+        return cleared;
     }
 
     public boolean isBomb() {return true;}

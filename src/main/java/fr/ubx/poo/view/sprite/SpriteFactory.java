@@ -52,6 +52,8 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(BOMB_NUMBER_INC), position);
         if (decor instanceof BombNumberDec)
             return new SpriteDecor(layer, factory.get(BOMB_NUMBER_DEC), position);
+        if (decor instanceof Explosion)
+            return new SpriteDecor(layer, factory.get(EXPLOSION), position);
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
