@@ -68,6 +68,7 @@ public class Bomb extends GameObject {
 
         }
         explode = true;
+        game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
     }
 
     public boolean isExplode(){

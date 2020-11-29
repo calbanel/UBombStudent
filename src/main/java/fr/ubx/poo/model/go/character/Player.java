@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class Player extends Alive {
 
     private int bombNb;
+    private int bombBag;
     private int bombRange;
     private int keysNb;
     private boolean winner;
@@ -31,6 +32,7 @@ public class Player extends Alive {
     public Player(Game game, Position position) {
         super(game, position, game.getInitPlayerLives());
         this.bombNb = 1;
+        this.bombBag = 1;
         this.bombRange = 1;
         this.keysNb = 0;
         this.invincibility = false;
@@ -51,6 +53,20 @@ public class Player extends Alive {
 
     public void setBombNb(int bombNb) {
         this.bombNb = bombNb;
+    }
+
+    public int getBombBag() {
+        return bombBag;
+    }
+
+    public void setBombBag(int bombBag) {
+        if(bombBag <= 0){
+            bombBag = 0;
+        }
+        if (bombBag >= bombNb)
+            this.bombBag = bombNb;
+        else
+            this.bombBag = bombBag;
     }
 
     public int getBombRange() {
@@ -171,8 +187,11 @@ public class Player extends Alive {
     }
 
     public void newBomb(){
-        if (bombs.size() < bombNb)
-            bombs.add(new Bomb(game,getPosition(),lastUpdate,bombRange));
+        if (bombs.size() <= bombBag) {
+            bombs.add(new Bomb(game, getPosition(), lastUpdate, bombRange));
+            bombBag--;
+        }
+
     }
 
     public ArrayList<Bomb> getBombs(){

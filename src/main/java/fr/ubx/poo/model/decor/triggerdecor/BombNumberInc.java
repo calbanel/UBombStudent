@@ -11,6 +11,7 @@ public class BombNumberInc extends TriggerDecor{
 
     public void trigger(Player player, World world) {
         player.setBombNb(player.getBombNb()+1);
+        player.setBombBag(player.getBombBag()+1);
         world.clear(player.getPosition());
     }
 }
