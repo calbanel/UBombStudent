@@ -18,5 +18,9 @@ public class Box extends ObstructDecor {
         game.getWorld().set(nextPos, this);
         game.getWorld().clear(pos);
     }
+
+    public boolean isDestructible(){
+        return true;
+    }
 }
 

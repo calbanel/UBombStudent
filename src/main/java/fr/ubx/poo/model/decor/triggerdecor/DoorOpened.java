@@ -8,4 +8,7 @@ public abstract class DoorOpened extends TriggerDecor{
         return false;
     }
     public abstract void trigger(Player player, World world);
+    public boolean isDestructible(){
+        return false;
+    }
 }

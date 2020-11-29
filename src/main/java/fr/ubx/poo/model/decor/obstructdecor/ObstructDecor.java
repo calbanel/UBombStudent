@@ -11,4 +11,7 @@ public abstract class ObstructDecor extends Decor {
     public void trigger(Player player, World world){
         System.out.println("Error trigger on obstruct decor");
     }
+    public boolean isDestructible(){
+        return false;
+    }
 }

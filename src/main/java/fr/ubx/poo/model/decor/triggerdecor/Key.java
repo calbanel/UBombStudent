@@ -13,5 +13,9 @@ public class Key extends TriggerDecor {
         player.setKeysNb(player.getKeysNb()+1);
         world.clear(player.getPosition());
     }
+
+    public boolean isDestructible(){
+        return false;
+    }
 }
 
