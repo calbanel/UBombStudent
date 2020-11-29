@@ -6,6 +6,7 @@ package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.Timer;
 import fr.ubx.poo.game.damage.PlayerDamage;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
@@ -23,6 +24,7 @@ public class Player extends Alive {
     private boolean winner;
     private boolean moveRequested = false;
     private boolean invincibility;
+    private Timer invincibilityTimer = null;
     private static long lastUpdate = 0;
     private ArrayList<Bomb> bombs;
 
@@ -88,27 +90,33 @@ public class Player extends Alive {
 
     public void update(long now) {
 
-        bombs.forEach(b -> b.update(now));
-        bombs.removeIf(b -> b.isExplode());
+        //SAVE THE UPDATE TIME
+        lastUpdate = now;
 
-        if (invincibility)
-            updateInvincibility(now);
-        else
-            lastUpdate = now; //collect the time at each update
+        //BOMBS GESTION
+        if(!bombs.isEmpty()) {
+            bombs.forEach(b -> b.update(now));
+            bombs.removeIf(b -> b.isExplode());
+        }
 
+        //INVINCIBILITY GESTION
+        if (invincibility){
+            if(invincibilityTimer == null)
+                invincibilityTimer = new Timer(now,1000000000L);
+            invincibilityTimer.update(now);
+            if(invincibilityTimer.isFinish()){
+                invincibility = false;
+                invincibilityTimer = null;
+            }
+        }
+
+        //PLAYER MOVE GESTION
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
             }
         }
         moveRequested = false;
-    }
-
-    private void updateInvincibility(long now){
-        if(now - lastUpdate >= 1000000000L){ //1 second
-            invincibility = false;
-            lastUpdate = now;
-        }
     }
 
     protected void moveConsequence(){

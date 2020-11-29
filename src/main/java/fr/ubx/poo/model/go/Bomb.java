@@ -1,13 +1,13 @@
 package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.game.BombTimer;
+import fr.ubx.poo.game.Timer;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.World;
 
 public class Bomb extends GameObject {
 
-    private BombTimer timer;
+    private Timer timer;
     private boolean explode;
     private World world;
     private int state;
@@ -18,7 +18,7 @@ public class Bomb extends GameObject {
 
     public Bomb(Game game, Position position, long now) {
         super(game, position);
-        this.timer = new BombTimer(now,4000000000L);
+        this.timer = new Timer(now,4000000000L);
         this.explode = false;
         this.world = this.game.getWorld();
         this.state = 0;
