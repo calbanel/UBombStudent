@@ -100,7 +100,7 @@ public class Bomb extends GameObject {
                     if(go != null)
                         gameObjectTouch(go);
 
-                    if(world.isEmpty(nextPos))
+                    if(!obstacle && world.isEmpty(nextPos))
                         world.set(nextPos, new Explosion());
                 }
 
