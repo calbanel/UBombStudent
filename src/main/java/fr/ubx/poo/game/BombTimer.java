@@ -2,12 +2,14 @@ package fr.ubx.poo.game;
 
 public class BombTimer {
 
+    private long start;
     private long time;
-    private long lastUpdate;
+    private long progress;
     private boolean finish;
 
     public BombTimer(long start, long time){
-        this.lastUpdate = start;
+        this.start = start;
+        this.progress = start;
         this.time = time;
         this.finish = false;
     }
@@ -16,16 +18,17 @@ public class BombTimer {
         return finish;
     }
 
-    public long getLastUpdate() {
-        return lastUpdate;
+    public long getProgress() {
+        return progress;
     }
 
     public void update(long now){
 
-        if (now - lastUpdate >= time) {
+        if (now - start >= time) {
             finish = true;
-            lastUpdate = now;
+            progress = now;
         }
+        progress = now - start;
 
 
     }

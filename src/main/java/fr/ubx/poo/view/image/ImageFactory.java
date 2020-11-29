@@ -23,7 +23,7 @@ public final class ImageFactory {
     };
 
     private final ImageResource[] bombState = new ImageResource[]{
-            BOMB1, BOMB2, BOMB3, BOMB4,
+            BOMB4, BOMB3, BOMB2, BOMB1,
     };
 
     private final ImageResource[] digits = new ImageResource[]{
