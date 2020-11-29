@@ -71,7 +71,7 @@ public class Bomb extends GameObject {
     }
 
     public void explosion(){
-        System.out.println("yo");
+
         explode = true;
 
         Position nextPos;
@@ -94,21 +94,20 @@ public class Bomb extends GameObject {
 
                     decor = world.get(nextPos);
                     if (decor != null)
-                        obstacle = decorTouch(decor,nextPos);
-                        if(!obstacle)
-                            world.set(nextPos, new Explosion());
+                        obstacle = decorTouch(decor, nextPos);
 
                     go = game.getGameObjectAtPos(nextPos);
                     if(go != null)
                         gameObjectTouch(go);
+
+                    if(world.isEmpty(nextPos))
+                        world.set(nextPos, new Explosion());
                 }
 
             }
 
         }
         game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
-
-
     }
 
     private void clearExplosion(){
@@ -122,6 +121,7 @@ public class Bomb extends GameObject {
 
                 nextPos = direction.nextPosition(nextPos);
                 decor = world.get(nextPos);
+                System.out.println(decor);
                 if (decor instanceof Explosion)
                     world.clear(nextPos);
             }

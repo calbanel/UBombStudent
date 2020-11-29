@@ -27,7 +27,7 @@ public abstract class Decor extends Entity {
         return false;
     }
     public void hitByBomb(World world, Position position){
-        if (this.isDestructible()){
+        if (isDestructible()){
             world.clear(position);
         }
     }

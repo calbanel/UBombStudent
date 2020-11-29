@@ -191,9 +191,7 @@ public class Player extends Alive {
     private void bombsUpdate(long now){
         if(!bombs.isEmpty()) {
             bombs.forEach(b -> b.update(now));
-            System.out.println(bombs.size());
             bombs.removeIf(Bomb::isCleared);
-            System.out.println(bombs.size());
         }
     }
 
