@@ -20,16 +20,32 @@ public class Monster extends Alive {
     }
 
     public void update(long now){
-        Direction random = direction.random();
-        if(now - lastUpdate >= 1500000000L){ //1.5 seconds
-            while(!canMove(random))
-                random = direction.random();
+        boolean stuck = stuck();
 
-            this.direction = random;
-            doMove(random);
-            lastUpdate = now;
+        if(!stuck) {
+            Direction random = direction.random();
+            if (now - lastUpdate >= 1500000000L) { //1.5 seconds
+                while (!canMove(random))
+                    random = direction.random();
+
+                this.direction = random;
+                doMove(random);
+                lastUpdate = now;
+            }
         }
 
+    }
+
+    private boolean stuck(){
+        boolean stuck = true;
+        Decor decor;
+        for(Direction dir : Direction.values()){
+            decor = game.getWorld().get(dir.nextPosition(getPosition()));
+            if(decor == null || decor.nonPlayerCanWalkOn()){
+                stuck = false;
+            }
+        }
+        return stuck;
     }
 
     protected void moveConsequence(){

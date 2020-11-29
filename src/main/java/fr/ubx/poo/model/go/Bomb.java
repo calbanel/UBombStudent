@@ -121,7 +121,7 @@ public class Bomb extends GameObject {
 
                 nextPos = direction.nextPosition(nextPos);
                 decor = world.get(nextPos);
-                System.out.println(decor);
+
                 if (decor instanceof Explosion)
                     world.clear(nextPos);
             }

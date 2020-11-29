@@ -11,6 +11,11 @@ public class Princess extends TriggerDecor{
     }
 
     @Override
+    public boolean nonPlayerCanWalkOn() {
+        return false;
+    }
+
+    @Override
     public void trigger(Player player, World world) {
         player.win();
     }
