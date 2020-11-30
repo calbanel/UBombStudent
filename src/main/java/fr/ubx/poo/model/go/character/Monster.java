@@ -24,7 +24,7 @@ public class Monster extends Alive {
 
         if(!stuck) {
             Direction random = direction.random();
-            if (now - lastUpdate >= 1500000000L) { //1.5 seconds
+            if (now - lastUpdate >= 1500000000L) { // 1.5 seconds
                 while (!canMove(random))
                     random = direction.random();
 

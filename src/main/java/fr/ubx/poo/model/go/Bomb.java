@@ -16,16 +16,16 @@ public class Bomb extends GameObject {
     private final int range;
     private int state;
 
-    private final static long STATE1 = 1000000000L;
-    private final static long STATE2 = 2000000000L;
-    private final static long STATE3 = 3000000000L;
+    private final static long STATE1 = 1000000000L; // 1 sec
+    private final static long STATE2 = 2000000000L; // 2 sec
+    private final static long STATE3 = 3000000000L; // 3 sec
 
     private Timer clearTimer;
     private boolean cleared;
 
     public Bomb(Game game, Position position, long now, int range) {
         super(game, position);
-        this.timer = new Timer(now,4000000000L);
+        this.timer = new Timer(now,4000000000L); // 4 sec
         this.explode = false;
         this.state = 0;
         this.range = range;
@@ -53,7 +53,7 @@ public class Bomb extends GameObject {
         }
 
         if(explode && clearTimer == null){
-            clearTimer = new Timer(now, 90000000L);
+            clearTimer = new Timer(now, 90000000L); // 90 msec
         }
 
         if(clearTimer != null && !cleared) {

@@ -116,7 +116,7 @@ public class Player extends Alive {
     private void invincibilityUpdate(long now){
         if (invincibility){
             if(invincibilityTimer == null)
-                invincibilityTimer = new Timer(now,1000000000L);
+                invincibilityTimer = new Timer(now,1000000000L); // 1 sec
             invincibilityTimer.update(now);
             if(invincibilityTimer.isFinish()){
                 invincibility = false;
@@ -204,7 +204,7 @@ public class Player extends Alive {
     }
 
     private boolean bombOnPlayerPos(){
-        return bombs.stream().filter(b-> b.getPosition().equals(getPosition())).findAny().isPresent();
+        return bombs.stream().anyMatch(b-> b.getPosition().equals(getPosition()));
     }
 
     public ArrayList<Bomb> getBombs(){

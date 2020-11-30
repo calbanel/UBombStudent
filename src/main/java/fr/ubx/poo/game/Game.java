@@ -81,10 +81,7 @@ public class Game {
             return monster;
 
         Bomb bomb = player.getBombs().stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
-        if(bomb != null)
-            return bomb;
-
-        return null;
+        return bomb;
     }
 
 
