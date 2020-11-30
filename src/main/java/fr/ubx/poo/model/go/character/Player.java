@@ -196,11 +196,15 @@ public class Player extends Alive {
     }
 
     public void newBomb(){
-        if (bombs.size() <= bombBag) {
+        if (bombs.size() <= bombBag && !bombOnPlayerPos()) {
             bombs.add(new Bomb(game, getPosition(), lastUpdate, bombRange));
             bombBag--;
         }
 
+    }
+
+    private boolean bombOnPlayerPos(){
+        return bombs.stream().filter(b-> b.getPosition().equals(getPosition())).findAny().isPresent();
     }
 
     public ArrayList<Bomb> getBombs(){

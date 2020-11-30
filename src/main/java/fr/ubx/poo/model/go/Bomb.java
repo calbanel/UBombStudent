@@ -53,7 +53,7 @@ public class Bomb extends GameObject {
         }
 
         if(explode && clearTimer == null){
-            clearTimer = new Timer(now, 300000000L);
+            clearTimer = new Timer(now, 90000000L);
         }
 
         if(clearTimer != null && !cleared) {
