@@ -75,9 +75,9 @@ public class Bomb extends GameObject {
         explode = true;
 
         Position nextPos;
-        Decor decor;
-        GameObject go;
         boolean obstacle;
+
+        explosionDamage(getPosition());
 
         for(Direction direction : Direction.values()){
             nextPos = getPosition();
@@ -88,20 +88,7 @@ public class Bomb extends GameObject {
                 if (!obstacle) {
 
                     nextPos = direction.nextPosition(nextPos);
-
-                    if(!world.isInside(nextPos))
-                        obstacle = true;
-
-                    decor = world.get(nextPos);
-                    if (decor != null)
-                        obstacle = decorTouch(decor, nextPos);
-
-                    go = game.getGameObjectAtPos(nextPos);
-                    if(go != null)
-                        gameObjectTouch(go);
-
-                    if(!obstacle && world.isEmpty(nextPos))
-                        world.set(nextPos, new Explosion());
+                    obstacle = explosionDamage(nextPos);
                 }
 
             }
@@ -110,9 +97,31 @@ public class Bomb extends GameObject {
         game.getPlayer().setBombBag(game.getPlayer().getBombBag()+1);
     }
 
+    private boolean explosionDamage(Position pos){ //return true if there is an obstacle
+        boolean obstacle = false;
+
+        if(!world.isInside(pos))
+            obstacle = true;
+
+        Decor decor = world.get(pos);
+        if (decor != null)
+            obstacle = decorTouch(decor, pos);
+
+        GameObject go = game.getGameObjectAtPos(pos);
+        if(go != null)
+            gameObjectTouch(go);
+
+        if(!obstacle && world.isEmpty(pos))
+            world.set(pos, new Explosion());
+
+        return obstacle;
+    }
+
     private void clearExplosion(){
         Position nextPos;
         Decor decor;
+
+        world.clear(getPosition());
 
         for(Direction direction : Direction.values()){
             nextPos = getPosition();
