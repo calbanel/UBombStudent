@@ -5,4 +5,6 @@ public class DoorNextClosed extends ObstructDecor {
     public String toString() {
         return "DoorNextClosed";
     }
+
+    public boolean isClosedDoor(){return true;}
 }

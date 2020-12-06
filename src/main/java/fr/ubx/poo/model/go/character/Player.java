@@ -8,6 +8,7 @@ import fr.ubx.poo.game.*;
 import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
+import fr.ubx.poo.model.decor.triggerdecor.DoorNextOpened;
 import fr.ubx.poo.model.decor.triggerdecor.TriggerDecor;
 import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
@@ -219,6 +220,17 @@ public class Player extends Alive {
 
     public void setKeysNb(int keysNb) {
         this.keysNb = keysNb;
+    }
+
+    public void openDoor(){
+        Decor decor;
+        if(keysNb > 0){
+            Position nextPos = getDirection().nextPosition(getPosition());
+            if(currentWorld.get(nextPos).isClosedDoor()){
+                currentWorld.set(nextPos,new DoorNextOpened());
+                keysNb--;
+            }
+        }
     }
 
 }
