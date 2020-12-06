@@ -6,6 +6,7 @@ package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Entity;
 
 /***
@@ -13,6 +14,7 @@ import fr.ubx.poo.model.Entity;
  */
 public abstract class GameObject extends Entity {
     protected final Game game;
+    protected World currentWorld;
     private Position position;
 
 
@@ -24,12 +26,14 @@ public abstract class GameObject extends Entity {
         this.position = position;
     }
 
-    public GameObject(Game game, Position position) {
+    public GameObject(Game game, Position position, World currentWorld) {
         this.game = game;
         this.position = position;
+        this.currentWorld = currentWorld;
     }
 
     public boolean isPlayer() {return false;}
     public boolean isBomb() {return false;}
     public boolean isMonster() {return false;}
+    public World getCurrentWorld(){return currentWorld;};
 }

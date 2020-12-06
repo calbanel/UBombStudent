@@ -4,11 +4,8 @@
 
 package fr.ubx.poo.model.go.character;
 
-import fr.ubx.poo.game.Direction;
-import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.Timer;
+import fr.ubx.poo.game.*;
 import fr.ubx.poo.game.damage.DamageOnPlayer;
-import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
 import fr.ubx.poo.model.decor.triggerdecor.TriggerDecor;
@@ -31,8 +28,8 @@ public class Player extends Alive {
     private static long lastUpdate = 0;
     private ArrayList<Bomb> bombs;
 
-    public Player(Game game, Position position) {
-        super(game, position, game.getInitPlayerLives());
+    public Player(Game game, Position position, World currentWorld) {
+        super(game, position, currentWorld, game.getInitPlayerLives());
         this.bombNb = 1;
         this.bombBag = 1;
         this.bombRange = 1;
@@ -85,10 +82,10 @@ public class Player extends Alive {
 
     protected void moveConsequence(){
 
-        Decor decor = game.getWorld().get(this.getPosition());
+        Decor decor = game.getCurrentWorld().get(this.getPosition());
         if (decor != null && decor.isTriggerDecor()) {
             TriggerDecor tDecor = (TriggerDecor) decor;
-            tDecor.trigger(this, game.getWorld());
+            tDecor.trigger(this, game.getCurrentWorld());
         }
 
         game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().ifPresent(monster -> walkOnMonster());
@@ -148,10 +145,10 @@ public class Player extends Alive {
 
     private boolean boxCanMove(Position boxPos){
         Position nextPos = direction.nextPosition(boxPos);
-        if (!nextPos.inside(game.getWorld().dimension))
+        if (!nextPos.inside(game.getCurrentWorld().dimension))
             return false;
 
-        if (!game.getWorld().isEmpty(nextPos))
+        if (!game.getCurrentWorld().isEmpty(nextPos))
             return false;
 
         GameObject go = game.getGameObjectAtPos(nextPos);
@@ -197,7 +194,7 @@ public class Player extends Alive {
 
     public void newBomb(){
         if (bombs.size() <= bombBag && !bombOnPlayerPos()) {
-            bombs.add(new Bomb(game, getPosition(), lastUpdate, bombRange));
+            bombs.add(new Bomb(game, getPosition(), getCurrentWorld(), lastUpdate, bombRange));
             bombBag--;
         }
 
@@ -208,7 +205,9 @@ public class Player extends Alive {
     }
 
     public ArrayList<Bomb> getBombs(){
-        return bombs;
+        ArrayList<Bomb> inCurrentWorld = new ArrayList<>();
+        bombs.stream().filter(b -> b.getCurrentWorld().equals(currentWorld)).forEach(b -> inCurrentWorld.add(b));
+        return inCurrentWorld;
     }
 
 

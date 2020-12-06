@@ -12,7 +12,7 @@ public class Bomb extends GameObject {
 
     private final Timer timer;
     private boolean explode;
-    private final World world = game.getWorld();
+    private final World world = game.getCurrentWorld();
     private final int range;
     private int state;
 
@@ -23,8 +23,8 @@ public class Bomb extends GameObject {
     private Timer clearTimer;
     private boolean cleared;
 
-    public Bomb(Game game, Position position, long now, int range) {
-        super(game, position);
+    public Bomb(Game game, Position position, World currentWorld, long now, int range) {
+        super(game, position, currentWorld);
         this.timer = new Timer(now,4000000000L); // 4 sec
         this.explode = false;
         this.state = 0;

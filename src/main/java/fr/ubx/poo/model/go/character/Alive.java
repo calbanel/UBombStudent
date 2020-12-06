@@ -14,8 +14,8 @@ public abstract class Alive extends GameObject implements Movable {
     private int lives;
 
 
-    public Alive(Game game, Position position, int lives) {
-        super(game, position);
+    public Alive(Game game, Position position, World currentWorld, int lives) {
+        super(game, position, currentWorld);
         this.direction = Direction.S;
         this.lives = lives;
     }
@@ -35,7 +35,7 @@ public abstract class Alive extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         boolean canMove;
-        World world = game.getWorld();
+        World world = game.getCurrentWorld();
 
         Position nextPos = direction.nextPosition(getPosition());
 

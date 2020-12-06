@@ -54,8 +54,8 @@ public final class GameEngine {
         Group root = new Group();
         layer = new Pane();
 
-        int height = game.getWorld().dimension.height;
-        int width = game.getWorld().dimension.width;
+        int height = game.getCurrentWorld().dimension.height;
+        int width = game.getCurrentWorld().dimension.width;
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
@@ -70,7 +70,7 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         // Create decor sprites
-        game.getWorld().forEach( (pos,d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        game.getCurrentWorld().forEach( (pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritesAlive.add(SpriteFactory.createGO(layer, player));
         monsters.forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
 
@@ -154,14 +154,14 @@ public final class GameEngine {
 
     private void render() {
         // refresh of decor sprites
-        if(game.getWorld().hasChanged()) {
+        if(game.getCurrentWorld().hasChanged()) {
             sprites.forEach(Sprite::remove);
             sprites.clear();
 
-            game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+            game.getCurrentWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
 
             sprites.forEach(Sprite::render);
-            game.getWorld().changeDone();
+            game.getCurrentWorld().changeDone();
         }
         // rendering of the monsters and player
         player.getBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));

@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 
@@ -15,8 +16,8 @@ public class Monster extends Alive {
         return "Monster";
     }
 
-    public Monster(Game game, Position position) {
-        super(game, position, 1);
+    public Monster(Game game, Position position, World currentWorld) {
+        super(game, position, currentWorld, 1);
     }
 
     public void update(long now){
@@ -40,7 +41,7 @@ public class Monster extends Alive {
         boolean stuck = true;
         Decor decor;
         for(Direction dir : Direction.values()){
-            decor = game.getWorld().get(dir.nextPosition(getPosition()));
+            decor = game.getCurrentWorld().get(dir.nextPosition(getPosition()));
             if(decor == null || decor.nonPlayerCanWalkOn()){
                 stuck = false;
             }

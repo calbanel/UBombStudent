@@ -19,26 +19,36 @@ import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
 
-    private final World world;
+    private final ArrayList<World> worlds = new ArrayList<>();
     private final Player player;
     private final ArrayList<Monster> monsters = new ArrayList<>();
     private final String worldPath;
     public int initPlayerLives;
+    private int nbWorlds;
+    private static String prefix;
+    private World currentWorld;
+
 
     public Game(String worldPath) {
-        world = new WorldFromFile(worldPath + "/level1.txt");
         this.worldPath = worldPath;
-        System.out.println(worldPath + "/level1.txt");
         loadConfig(worldPath);
-        Position positionPlayer;
+
+        World world;
         ArrayList<Position> positionMonsters;
-        try {
-            positionPlayer = world.findPlayer();
+        for(int i = 1; i <= nbWorlds; i++){
+            worlds.add(new WorldFromFile(worldPath + "/" + prefix + i + ".txt"));
+            world = worlds.get(i-1);
             positionMonsters = world.findMonsters();
-            player = new Player(this, positionPlayer);
             for (Position pos : positionMonsters) {
-                monsters.add(new Monster(this,pos));
+                monsters.add(new Monster(this, pos,world));
             }
+        }
+        currentWorld = worlds.get(0);
+
+        Position positionPlayer;
+        try {
+            positionPlayer = currentWorld.findPlayer();
+            player = new Player(this, positionPlayer, currentWorld);
         } catch (PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -55,13 +65,19 @@ public class Game {
             // load the configuration file
             prop.load(input);
             initPlayerLives = Integer.parseInt(prop.getProperty("lives", "3"));
+            nbWorlds = Integer.parseInt(prop.getProperty("levels", "3"));
+            prefix = prop.getProperty("prefix", "level");
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
     }
 
-    public World getWorld() {
-        return world;
+    public ArrayList<World> getWorlds() {
+        return worlds;
+    }
+
+    public World getCurrentWorld() {
+        return currentWorld;
     }
 
     public Player getPlayer() {
@@ -69,7 +85,9 @@ public class Game {
     }
 
     public ArrayList<Monster> getMonsters() {
-        return this.monsters;
+        ArrayList<Monster> inCurrentWorld = new ArrayList<>();
+        monsters.stream().filter(m -> m.getCurrentWorld().equals(currentWorld)).forEach(m -> inCurrentWorld.add(m));
+        return inCurrentWorld;
     }
 
     public GameObject getGameObjectAtPos(Position pos){
@@ -77,7 +95,7 @@ public class Game {
         if(player.getPosition().equals(pos))
             return player;
 
-        Monster monster = monsters.stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
+        Monster monster = getMonsters().stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
         if(monster != null)
             return monster;
 
