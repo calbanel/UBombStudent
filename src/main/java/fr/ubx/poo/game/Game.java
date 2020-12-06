@@ -26,8 +26,9 @@ public class Game {
     public int initPlayerLives;
 
     public Game(String worldPath) {
-        world = new WorldStatic();
+        world = new WorldFromFile(worldPath + "/level1.txt");
         this.worldPath = worldPath;
+        System.out.println(worldPath + "/level1.txt");
         loadConfig(worldPath);
         Position positionPlayer;
         ArrayList<Position> positionMonsters;
