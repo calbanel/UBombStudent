@@ -18,6 +18,4 @@ public abstract class SpriteGameObject extends Sprite {
     public Position getPosition() {
         return go.getPosition();
     }
-
-    public World getLevel(){return go.getCurrentWorld();};
 }

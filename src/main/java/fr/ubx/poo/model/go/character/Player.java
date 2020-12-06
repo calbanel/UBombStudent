@@ -232,6 +232,7 @@ public class Player extends Alive {
         if(keysNb > 0){
             Position nextPos = getDirection().nextPosition(getPosition());
             if(currentWorld.get(nextPos).isClosedDoor()){
+                currentWorld.clear(nextPos);
                 currentWorld.set(nextPos,new DoorNextOpened());
                 keysNb--;
             }
