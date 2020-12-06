@@ -12,7 +12,6 @@ public class Bomb extends GameObject {
 
     private final Timer timer;
     private boolean explode;
-    private final World world = game.getCurrentWorld();
     private final int range;
     private int state;
 
@@ -100,19 +99,19 @@ public class Bomb extends GameObject {
     private boolean explosionDamage(Position pos){ //return true if there is an obstacle
         boolean obstacle = false;
 
-        if(!world.isInside(pos))
+        if(!currentWorld.isInside(pos))
             obstacle = true;
 
-        Decor decor = world.get(pos);
+        Decor decor = currentWorld.get(pos);
         if (decor != null)
             obstacle = decorTouch(decor, pos);
 
-        GameObject go = game.getGameObjectAtPos(pos);
+        GameObject go = game.getGameObjectAtPos(pos, currentWorld);
         if(go != null)
             gameObjectTouch(go);
 
-        if(!obstacle && world.isEmpty(pos))
-            world.set(pos, new Explosion());
+        if(!obstacle && currentWorld.isEmpty(pos))
+            currentWorld.set(pos, new Explosion());
 
         return obstacle;
     }
@@ -121,7 +120,7 @@ public class Bomb extends GameObject {
         Position nextPos;
         Decor decor;
 
-        world.clear(getPosition());
+        currentWorld.clear(getPosition());
 
         for(Direction direction : Direction.values()){
             nextPos = getPosition();
@@ -129,10 +128,10 @@ public class Bomb extends GameObject {
             for (int r = 1; r <= range; r++) {
 
                 nextPos = direction.nextPosition(nextPos);
-                decor = world.get(nextPos);
+                decor = currentWorld.get(nextPos);
 
                 if (decor instanceof Explosion)
-                    world.clear(nextPos);
+                    currentWorld.clear(nextPos);
             }
 
         }
@@ -160,7 +159,7 @@ public class Bomb extends GameObject {
     }
 
     private boolean decorTouch(Decor decor, Position nextPos){
-        decor.hitByBomb(world, nextPos);
+        decor.hitByBomb(currentWorld, nextPos);
         return !decor.canWalkOn();
     }
 

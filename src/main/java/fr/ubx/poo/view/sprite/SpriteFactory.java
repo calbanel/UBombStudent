@@ -56,7 +56,7 @@ public final class SpriteFactory {
         throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
-    public static Sprite createGO(Pane layer, GameObject go) {
+    public static SpriteGameObject createGO(Pane layer, GameObject go) {
         if (go instanceof Player) {
             Player player = (Player) go;
             return new SpritePlayer(layer, player);

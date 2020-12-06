@@ -84,24 +84,37 @@ public class Game {
         return this.player;
     }
 
-    public ArrayList<Monster> getMonsters() {
+    public ArrayList<Monster> getCurrentWorldMonsters() {
         ArrayList<Monster> inCurrentWorld = new ArrayList<>();
         monsters.stream().filter(m -> m.getCurrentWorld().equals(currentWorld)).forEach(m -> inCurrentWorld.add(m));
         return inCurrentWorld;
     }
 
-    public GameObject getGameObjectAtPos(Position pos){
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
 
-        if(player.getPosition().equals(pos))
+    public GameObject getGameObjectAtPos(Position pos, World world){
+
+        if(player.getCurrentWorld().equals(world) && player.getPosition().equals(pos))
             return player;
 
-        Monster monster = getMonsters().stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
+        Monster monster = monsters.stream().filter(m -> m.getCurrentWorld().equals(world) && m.getPosition().equals(pos)).findAny().orElse(null);
         if(monster != null)
             return monster;
 
-        Bomb bomb = player.getBombs().stream().filter(m -> m.getPosition().equals(pos)).findAny().orElse(null);
+        Bomb bomb = player.getBombs().stream().filter(b -> b.getCurrentWorld().equals(world) && b.getPosition().equals(pos)).findAny().orElse(null);
         return bomb;
     }
 
-
+    public void playerChangeLevel(int level,String door) {
+        this.currentWorld = worlds.get(level-1);
+        try {
+            player.setPosition(currentWorld.findDoorOpened(door));
+        } catch (PositionNotFoundException e) {
+            System.err.println("Position not found : " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+        player.setLevelChangement(true);
+    }
 }

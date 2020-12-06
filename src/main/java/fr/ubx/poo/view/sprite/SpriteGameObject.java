@@ -1,6 +1,7 @@
 package fr.ubx.poo.view.sprite;
 
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.go.GameObject;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -17,4 +18,6 @@ public abstract class SpriteGameObject extends Sprite {
     public Position getPosition() {
         return go.getPosition();
     }
+
+    public World getLevel(){return go.getCurrentWorld();};
 }

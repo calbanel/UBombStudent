@@ -9,6 +9,6 @@ public class DoorPrevOpened extends DoorOpened{
     }
 
     public void trigger(Player player, World world) {
-        System.out.println("not implemented yet");
+        player.changeLevel(1,"prev");
     }
 }

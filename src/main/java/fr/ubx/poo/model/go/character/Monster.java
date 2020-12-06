@@ -41,7 +41,7 @@ public class Monster extends Alive {
         boolean stuck = true;
         Decor decor;
         for(Direction dir : Direction.values()){
-            decor = game.getCurrentWorld().get(dir.nextPosition(getPosition()));
+            decor = currentWorld.get(dir.nextPosition(getPosition()));
             if(decor == null || decor.nonPlayerCanWalkOn()){
                 stuck = false;
             }
@@ -49,11 +49,12 @@ public class Monster extends Alive {
         return stuck;
     }
 
-    protected void moveConsequence(){
-
-            Player player = game.getPlayer();
+    protected void moveConsequence() {
+        Player player = game.getPlayer();
+        if (player.getCurrentWorld().equals(currentWorld)){
             if (this.getPosition().equals(player.getPosition()))
                 walkOnPlayer(player);
+        }
 
     }
 

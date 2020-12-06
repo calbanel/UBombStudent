@@ -28,6 +28,8 @@ public class Player extends Alive {
     private Timer invincibilityTimer = null;
     private static long lastUpdate = 0;
     private ArrayList<Bomb> bombs;
+    private int currentLevel;
+    private boolean levelChangement;
 
     public Player(Game game, Position position, World currentWorld) {
         super(game, position, currentWorld, game.getInitPlayerLives());
@@ -37,6 +39,8 @@ public class Player extends Alive {
         this.keysNb = 0;
         this.invincibility = false;
         this.bombs = new ArrayList<>();
+        this.currentLevel = 1;
+        levelChangement = false;
     }
 
     public void win(){
@@ -83,13 +87,13 @@ public class Player extends Alive {
 
     protected void moveConsequence(){
 
-        Decor decor = game.getCurrentWorld().get(this.getPosition());
+        Decor decor = currentWorld.get(this.getPosition());
         if (decor != null && decor.isTriggerDecor()) {
             TriggerDecor tDecor = (TriggerDecor) decor;
-            tDecor.trigger(this, game.getCurrentWorld());
+            tDecor.trigger(this, currentWorld);
         }
 
-        game.getMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().ifPresent(monster -> walkOnMonster());
+        game.getCurrentWorldMonsters().stream().filter(m -> m.getPosition().equals(getPosition())).findAny().ifPresent(monster -> walkOnMonster());
 
     }
 
@@ -146,13 +150,13 @@ public class Player extends Alive {
 
     private boolean boxCanMove(Position boxPos){
         Position nextPos = direction.nextPosition(boxPos);
-        if (!nextPos.inside(game.getCurrentWorld().dimension))
+        if (!nextPos.inside(currentWorld.dimension))
             return false;
 
-        if (!game.getCurrentWorld().isEmpty(nextPos))
+        if (!currentWorld.isEmpty(nextPos))
             return false;
 
-        GameObject go = game.getGameObjectAtPos(nextPos);
+        GameObject go = game.getGameObjectAtPos(nextPos, currentWorld);
         return go == null;
     }
 
@@ -175,7 +179,9 @@ public class Player extends Alive {
         if(bombBag <= 0){
             bombBag = 0;
         }
-        this.bombBag = Math.min(bombBag, bombNb);
+        if(bombBag <= bombNb){
+            this.bombBag = bombBag;
+        }
     }
 
     public int getBombRange() {
@@ -207,7 +213,7 @@ public class Player extends Alive {
 
     public ArrayList<Bomb> getBombs(){
         ArrayList<Bomb> inCurrentWorld = new ArrayList<>();
-        bombs.stream().filter(b -> b.getCurrentWorld().equals(currentWorld)).forEach(b -> inCurrentWorld.add(b));
+        bombs.stream().filter(b -> b.getCurrentWorld().equals(currentWorld)).forEach(inCurrentWorld::add);
         return inCurrentWorld;
     }
 
@@ -223,7 +229,6 @@ public class Player extends Alive {
     }
 
     public void openDoor(){
-        Decor decor;
         if(keysNb > 0){
             Position nextPos = getDirection().nextPosition(getPosition());
             if(currentWorld.get(nextPos).isClosedDoor()){
@@ -233,4 +238,21 @@ public class Player extends Alive {
         }
     }
 
+    public int getCurrentLevel(){
+        return currentLevel;
+    }
+
+    public void changeLevel(int currentLevel,String door){
+        this.currentLevel = currentLevel;
+        game.playerChangeLevel(currentLevel,door);
+        this.currentWorld = game.getCurrentWorld();
+    }
+
+    public boolean hasLevelChangement(){
+        return levelChangement;
+    }
+
+    public void setLevelChangement(boolean levelChangement) {
+        this.levelChangement = levelChangement;
+    }
 }

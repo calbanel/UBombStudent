@@ -10,6 +10,7 @@ import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.view.sprite.SpriteGameObject;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -37,8 +38,8 @@ public final class GameEngine {
     private Pane layer;
     private Input input;
     private Stage stage;
-    private final ArrayList<Monster> monsters;
-    private final ArrayList<Sprite> spritesAlive = new ArrayList<>();
+    private ArrayList<Monster> monsters;
+    private final ArrayList<SpriteGameObject> spritesAlive = new ArrayList<>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -72,7 +73,7 @@ public final class GameEngine {
         // Create decor sprites
         game.getCurrentWorld().forEach( (pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritesAlive.add(SpriteFactory.createGO(layer, player));
-        monsters.forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
+        game.getCurrentWorldMonsters().forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
 
     }
 
@@ -157,7 +158,7 @@ public final class GameEngine {
 
     private void render() {
         // refresh of decor sprites
-        if(game.getCurrentWorld().hasChanged()) {
+        if(game.getCurrentWorld().hasChanged() ||player.hasLevelChangement()) {
             sprites.forEach(Sprite::remove);
             sprites.clear();
 
@@ -167,6 +168,15 @@ public final class GameEngine {
             game.getCurrentWorld().changeDone();
         }
         // rendering of the monsters and player
+        if(player.hasLevelChangement()){
+            spritesAlive.forEach(Sprite::remove);
+            spritesAlive.clear();
+
+            spritesAlive.add(SpriteFactory.createGO(layer, player));
+            game.getCurrentWorldMonsters().forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
+            player.setLevelChangement(false);
+        }
+
         player.getBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));
         spritesAlive.forEach(Sprite::render);
 
