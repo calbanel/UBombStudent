@@ -200,7 +200,7 @@ public class Player extends Alive {
     }
 
     public void newBomb(){
-        if (bombs.size() <= bombBag && !bombOnPlayerPos()) {
+        if (bombs.size() < bombNb && !bombOnPlayerPos()) {
             bombs.add(new Bomb(game, getPosition(), getCurrentWorld(), lastUpdate, bombRange));
             bombBag--;
         }
