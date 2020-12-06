@@ -244,6 +244,7 @@ public class Player extends Alive {
     }
 
     public void changeLevel(int currentLevel,String door){
+
         this.currentLevel = currentLevel;
         game.playerChangeLevel(currentLevel,door);
         this.currentWorld = game.getCurrentWorld();

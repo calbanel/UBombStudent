@@ -64,6 +64,7 @@ public class StatusBar {
         if (n != gameLevel) {
             level.getChildren().clear();
             level.getChildren().add(new ImageView(ImageFactory.getInstance().getDigit(n)));
+            gameLevel = n;
         }
     }
 
@@ -80,7 +81,7 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        updateLevel(1);
+        updateLevel(game.getPlayer().getCurrentLevel());
         liveValue.setText(String.valueOf(game.getPlayer().getLives()));
         rangeValue.setText(String.valueOf(game.getPlayer().getBombRange()));
         bombsValue.setText(String.valueOf(game.getPlayer().getBombBag()));
