@@ -86,7 +86,7 @@ public class Game {
 
     public ArrayList<Monster> getCurrentWorldMonsters() {
         ArrayList<Monster> inCurrentWorld = new ArrayList<>();
-        monsters.stream().filter(m -> m.getCurrentWorld().equals(currentWorld)).forEach(m -> inCurrentWorld.add(m));
+        monsters.stream().filter(m -> m.getCurrentWorld().equals(currentWorld)).forEach(inCurrentWorld::add);
         return inCurrentWorld;
     }
 

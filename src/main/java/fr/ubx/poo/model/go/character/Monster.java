@@ -16,18 +16,18 @@ public class Monster extends Alive {
         return "Monster";
     }
 
-    public Monster(Game game, Position position, World currentWorld) {
-        super(game, position, currentWorld, 1);
+    public Monster(Game game, Position position, int currentLevel) {
+        super(game, position, currentLevel, 1);
     }
 
     public void update(long now){
         boolean stuck = stuck();
 
         if(!stuck) {
-            Direction random = direction.random();
+            Direction random = Direction.random();
             if (now - lastUpdate >= 1500000000L) { // 1.5 seconds
                 while (!canMove(random))
-                    random = direction.random();
+                    random = Direction.random();
 
                 this.direction = random;
                 doMove(random);
@@ -41,9 +41,11 @@ public class Monster extends Alive {
         boolean stuck = true;
         Decor decor;
         for(Direction dir : Direction.values()){
-            decor = currentWorld.get(dir.nextPosition(getPosition()));
-            if(decor == null || decor.nonPlayerCanWalkOn()){
-                stuck = false;
+            decor = getCurrentWorld().get(dir.nextPosition(getPosition()));
+            if(dir.nextPosition(getPosition()).inside(getCurrentWorld().dimension)) {
+                if (decor == null || decor.nonPlayerCanWalkOn()) {
+                    stuck = false;
+                }
             }
         }
         return stuck;
@@ -51,7 +53,7 @@ public class Monster extends Alive {
 
     protected void moveConsequence() {
         Player player = game.getPlayer();
-        if (player.getCurrentWorld().equals(currentWorld)){
+        if (player.getCurrentWorld().equals(getCurrentWorld())){
             if (this.getPosition().equals(player.getPosition()))
                 walkOnPlayer(player);
         }
