@@ -22,8 +22,8 @@ public class Bomb extends GameObject {
     private Timer clearTimer;
     private boolean cleared;
 
-    public Bomb(Game game, Position position, World currentWorld, long now, int range) {
-        super(game, position, currentWorld);
+    public Bomb(Game game, Position position, int currentLevel, long now, int range) {
+        super(game, position, currentLevel);
         this.timer = new Timer(now,4000000000L); // 4 sec
         this.explode = false;
         this.state = 0;
@@ -99,19 +99,19 @@ public class Bomb extends GameObject {
     private boolean explosionDamage(Position pos){ //return true if there is an obstacle
         boolean obstacle = false;
 
-        if(!currentWorld.isInside(pos))
+        if(!getCurrentWorld().isInside(pos))
             obstacle = true;
 
-        Decor decor = currentWorld.get(pos);
+        Decor decor = getCurrentWorld().get(pos);
         if (decor != null)
             obstacle = decorTouch(decor, pos);
 
-        GameObject go = game.getGameObjectAtPos(pos, currentWorld);
+        GameObject go = game.getGameObjectAtPos(pos, getCurrentWorld());
         if(go != null)
             gameObjectTouch(go);
 
-        if(!obstacle && currentWorld.isEmpty(pos))
-            currentWorld.set(pos, new Explosion());
+        if(!obstacle && getCurrentWorld().isEmpty(pos))
+            getCurrentWorld().set(pos, new Explosion());
 
         return obstacle;
     }
@@ -120,7 +120,7 @@ public class Bomb extends GameObject {
         Position nextPos;
         Decor decor;
 
-        currentWorld.clear(getPosition());
+        getCurrentWorld().clear(getPosition());
 
         for(Direction direction : Direction.values()){
             nextPos = getPosition();
@@ -128,10 +128,10 @@ public class Bomb extends GameObject {
             for (int r = 1; r <= range; r++) {
 
                 nextPos = direction.nextPosition(nextPos);
-                decor = currentWorld.get(nextPos);
+                decor = getCurrentWorld().get(nextPos);
 
-                if (decor instanceof Explosion)
-                    currentWorld.clear(nextPos);
+                if (decor != null && decor.isExplosion())
+                    getCurrentWorld().clear(nextPos);
             }
 
         }
@@ -159,7 +159,7 @@ public class Bomb extends GameObject {
     }
 
     private boolean decorTouch(Decor decor, Position nextPos){
-        decor.hitByBomb(currentWorld, nextPos);
+        decor.hitByBomb(getCurrentWorld(), nextPos);
         return !decor.canWalkOn();
     }
 

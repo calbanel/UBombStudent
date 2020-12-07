@@ -21,6 +21,9 @@ public abstract class Decor extends Entity {
     public boolean isBox(){
         return false;
     }
+    public boolean isExplosion(){
+        return false;
+    }
     public abstract boolean isDestructible();
     public boolean isTriggerDecor(){
         return false;

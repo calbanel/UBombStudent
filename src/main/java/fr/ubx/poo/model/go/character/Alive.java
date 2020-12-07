@@ -14,8 +14,8 @@ public abstract class Alive extends GameObject implements Movable {
     private int lives;
 
 
-    public Alive(Game game, Position position, World currentWorld, int lives) {
-        super(game, position, currentWorld);
+    public Alive(Game game, Position position, int currentLevel, int lives) {
+        super(game, position, currentLevel);
         this.direction = Direction.S;
         this.lives = lives;
     }

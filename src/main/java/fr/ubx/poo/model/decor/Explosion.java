@@ -5,4 +5,8 @@ public class Explosion extends Decor{
     public boolean isDestructible() {
         return false;
     }
+
+    public boolean isExplosion(){
+        return true;
+    }
 }

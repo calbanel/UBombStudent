@@ -177,7 +177,7 @@ public final class GameEngine {
             player.setLevelChangement(false);
         }
 
-        player.getBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));
+        player.getCurrentWorldBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));
         spritesAlive.forEach(Sprite::render);
 
     }

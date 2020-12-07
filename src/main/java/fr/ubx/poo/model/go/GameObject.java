@@ -14,7 +14,7 @@ import fr.ubx.poo.model.Entity;
  */
 public abstract class GameObject extends Entity {
     protected final Game game;
-    protected World currentWorld;
+    protected int currentLevel;
     private Position position;
 
 
@@ -26,14 +26,14 @@ public abstract class GameObject extends Entity {
         this.position = position;
     }
 
-    public GameObject(Game game, Position position, World currentWorld) {
+    public GameObject(Game game, Position position, int currentLevel) {
         this.game = game;
         this.position = position;
-        this.currentWorld = currentWorld;
+        this.currentLevel = currentLevel;
     }
 
     public boolean isPlayer() {return false;}
     public boolean isBomb() {return false;}
     public boolean isMonster() {return false;}
-    public World getCurrentWorld(){return currentWorld;};
+    public World getCurrentWorld(){return game.getWorlds().get(this.currentLevel-1);}
 }

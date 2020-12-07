@@ -40,7 +40,7 @@ public class Game {
             world = worlds.get(i-1);
             positionMonsters = world.findMonsters();
             for (Position pos : positionMonsters) {
-                monsters.add(new Monster(this, pos,world));
+                monsters.add(new Monster(this, pos,i));
             }
         }
         currentWorld = worlds.get(0);
@@ -48,7 +48,7 @@ public class Game {
         Position positionPlayer;
         try {
             positionPlayer = currentWorld.findPlayer();
-            player = new Player(this, positionPlayer, currentWorld);
+            player = new Player(this, positionPlayer, 1);
         } catch (PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
@@ -103,7 +103,7 @@ public class Game {
         if(monster != null)
             return monster;
 
-        Bomb bomb = player.getBombs().stream().filter(b -> b.getCurrentWorld().equals(world) && b.getPosition().equals(pos)).findAny().orElse(null);
+        Bomb bomb = player.getCurrentWorldBombs().stream().filter(b -> b.getCurrentWorld().equals(world) && b.getPosition().equals(pos)).findAny().orElse(null);
         return bomb;
     }
 
