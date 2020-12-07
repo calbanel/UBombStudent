@@ -169,11 +169,11 @@ public final class GameEngine {
         }
         // rendering of the monsters and player
         if(player.hasLevelChangement()){
-            spritesAlive.forEach(Sprite::remove);
+            sprites.clear();
             spritesAlive.clear();
-
-            spritesAlive.add(SpriteFactory.createGO(layer, player));
-            game.getCurrentWorldMonsters().forEach( (monster) -> spritesAlive.add(SpriteFactory.createGO(layer,monster)));
+            stage.close();
+            initialize(stage,game);
+            sprites.forEach(Sprite::render);
             player.setLevelChangement(false);
         }
 

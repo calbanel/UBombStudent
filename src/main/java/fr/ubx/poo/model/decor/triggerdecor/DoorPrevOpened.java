@@ -9,6 +9,6 @@ public class DoorPrevOpened extends DoorOpened{
     }
 
     public void trigger(Player player, World world) {
-        player.changeLevel(1,"prev");
+        player.changeLevel(player.getCurrentLevel()-1,"prev");
     }
 }

@@ -35,7 +35,7 @@ public abstract class Alive extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         boolean canMove;
-        World world = game.getCurrentWorld();
+        World world = getCurrentWorld();
 
         Position nextPos = direction.nextPosition(getPosition());
 
