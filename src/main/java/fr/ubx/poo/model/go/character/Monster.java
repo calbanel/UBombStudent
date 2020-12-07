@@ -22,10 +22,11 @@ public class Monster extends Alive {
         speed = speedCalcul(currentLevel);
     }
 
+    //for each level the time during each move of the monsters decrease of 15% -> (seconds) 1.5 | 1.27 | 1.08 | 0.92 | 0.78 | ...
     private static long speedCalcul(int level){
         long speed = 1500000000L;
         for(int i = 1; i < level; i++){
-            speed = (long) (speed * 0.85); //for each level the time during each move of the monsters decrease of 15% -> (seconds) 1.5 | 1.27 | 1.08 | 0.92 | 0.78 | ...
+            speed = (long) (speed * 0.85);
         }
         return speed;
     }

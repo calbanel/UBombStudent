@@ -237,7 +237,7 @@ public class Player extends Alive {
     public void openDoor(){
         if(keysNb > 0){
             Position nextPos = getDirection().nextPosition(getPosition());
-            if(getCurrentWorld().get(nextPos).isClosedDoor()){
+            if(getCurrentWorld().get(nextPos) !=null && getCurrentWorld().get(nextPos).isClosedDoor()){
                 getCurrentWorld().clear(nextPos);
                 getCurrentWorld().set(nextPos,new DoorNextOpened());
                 keysNb--;
