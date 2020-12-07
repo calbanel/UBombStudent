@@ -76,46 +76,38 @@ public class Monster extends Alive {
             if (canMove(Direction.W))
                 dir = Direction.W;
             else{
-                if(vector[1] < 0){
-                    if(canMove(Direction.N))
-                        dir = Direction.N;
-                }
-                if(vector[1] > 0){
-                    if(canMove(Direction.S))
-                        dir = Direction.S;
-                }
+                dir = northOrSud(vector);
             }
         }
         if(vector[0] > 0){
             if (canMove(Direction.E))
                 dir = Direction.E;
             else{
-                if(vector[1] < 0){
-                    if(canMove(Direction.N))
-                        dir = Direction.N;
-                }
-                if(vector[1] > 0){
-                    if(canMove(Direction.S))
-                        dir = Direction.S;
-                }
+                dir = northOrSud(vector);
             }
         }
 
         if(vector[0] == 0){
-            if(vector[1] < 0){
-                if(canMove(Direction.N))
-                    dir = Direction.N;
-            }
-            if(vector[1] > 0){
-                if(canMove(Direction.S))
-                    dir = Direction.S;
-            }
+            dir = northOrSud(vector);
         }
 
         if(dir == null){
             dir = randomDirection();
         }
 
+        return dir;
+    }
+
+    private Direction northOrSud(int[] vector){
+        Direction dir = null;
+        if(vector[1] < 0){
+            if(canMove(Direction.N))
+                dir = Direction.N;
+        }
+        if(vector[1] > 0){
+            if(canMove(Direction.S))
+                dir = Direction.S;
+        }
         return dir;
     }
 
