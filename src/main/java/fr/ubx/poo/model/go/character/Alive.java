@@ -71,4 +71,12 @@ public abstract class Alive extends GameObject implements Movable {
         return alive;
     }
 
+    public abstract void takeDamage();
+
+    protected boolean isDie(){
+        return this.getLives() == 0;
+    }
+
+    protected abstract void statusAfterDamage();
+
 }

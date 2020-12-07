@@ -5,7 +5,6 @@
 package fr.ubx.poo.model.go.character;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.obstructdecor.Box;
 import fr.ubx.poo.model.decor.triggerdecor.DoorNextOpened;
@@ -106,8 +105,7 @@ public class Player extends Alive {
     }
 
     private void walkOnMonster(){
-        DamageOnPlayer damage = new DamageOnPlayer();
-        damage.take(this);
+        this.takeDamage();
     }
 
 
@@ -261,5 +259,21 @@ public class Player extends Alive {
 
     public void setLevelChangement(boolean levelChangement) {
         this.levelChangement = levelChangement;
+    }
+
+    //DAMAGES
+    public void takeDamage() {
+        if (!this.isInvincible()){
+            this.setLives(this.getLives() - 1);
+            statusAfterDamage();
+        }
+    }
+
+    protected void statusAfterDamage(){
+        if(!isDie()){
+            this.setInvincibility(true);
+        }
+        else
+            this.die();
     }
 }

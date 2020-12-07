@@ -9,7 +9,7 @@ public class BombRangeDec extends TriggerDecor{
         return "BombRangeDec";
     }
 
-    public void trigger(Player player, World world) { //n'influe pas sur les bombes déjà posées
+    public void trigger(Player player, World world) {
         if (player.getBombRange() > 1) {
             player.setBombRange(player.getBombRange() - 1);
         }

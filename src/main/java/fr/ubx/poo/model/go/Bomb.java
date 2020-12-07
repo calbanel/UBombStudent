@@ -1,9 +1,6 @@
 package fr.ubx.poo.model.go;
 
 import fr.ubx.poo.game.*;
-import fr.ubx.poo.game.damage.Damage;
-import fr.ubx.poo.game.damage.DamageOnMonster;
-import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.go.character.Alive;
@@ -138,7 +135,7 @@ public class Bomb extends GameObject {
     }
 
     private void gameObjectTouch(GameObject go){
-        Damage damage;
+
         if(go.isBomb()){
             Bomb bomb = (Bomb) go;
             if(!bomb.isExplode())
@@ -146,15 +143,7 @@ public class Bomb extends GameObject {
         }
         else {
             Alive alive = (Alive) go;
-            if (go.isPlayer()) {
-                damage = new DamageOnPlayer();
-                damage.take(alive);
-            }
-
-            if (go.isMonster()) {
-                damage = new DamageOnMonster();
-                damage.take(alive);
-            }
+            alive.takeDamage();
         }
     }
 

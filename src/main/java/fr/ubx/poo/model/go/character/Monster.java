@@ -3,8 +3,6 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.game.World;
-import fr.ubx.poo.game.damage.DamageOnPlayer;
 import fr.ubx.poo.model.decor.Decor;
 
 public class Monster extends Alive {
@@ -77,12 +75,21 @@ public class Monster extends Alive {
     }
 
     private void walkOnPlayer(Player player){
-        DamageOnPlayer damage = new DamageOnPlayer();
-        damage.take(player);
-        System.out.println(speed);
+        player.takeDamage();
     }
 
     public boolean isMonster() {return true;}
+
+    public void takeDamage() {
+        this.setLives(this.getLives() - 1);
+        statusAfterDamage();
+    }
+
+    protected void statusAfterDamage() {
+        if (isDie()) {
+            this.die();
+        }
+    }
 
 
 }
