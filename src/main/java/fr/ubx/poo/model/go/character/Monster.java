@@ -35,10 +35,9 @@ public class Monster extends Alive {
 
         if(!stuck()) {
             if (now - lastUpdate >= speed) { // 1.5 seconds
-                if(game.getPlayer().getCurrentLevel() <= Math.ceil((double)game.getNbWorlds()/2)) {
-                    dir = randomDirection();
-                }
-                else {
+
+                dir = randomDirection();
+                if (currentLevel == game.getPlayer().getCurrentLevel() && !(game.getPlayer().getCurrentLevel() <= Math.ceil((double) game.getNbWorlds() / 2))) {
                     dir = focusPlayer();
                 }
 
@@ -65,14 +64,58 @@ public class Monster extends Alive {
 
     private Direction focusPlayer(){
         Direction dir = null;
-        Position playerPos = game.getPlayer().getPosition();
-        System.out.println(playerPos.hashCode());
-        while (true) {
-            dir = Direction.random();
-            if (canMove(dir)) {
-                break;
+        Position A = getPosition();
+        Position B = game.getPlayer().getPosition();
+        int[] vector = new int[2];
+        vector[0] = B.x - A.x;
+        vector[1] = B.y - A.y;
+
+        //System.out.println(vector[0] + " ; " + vector[1]);
+
+        if(vector[0] < 0){
+            if (canMove(Direction.W))
+                dir = Direction.W;
+            else{
+                if(vector[1] < 0){
+                    if(canMove(Direction.N))
+                        dir = Direction.N;
+                }
+                if(vector[1] > 0){
+                    if(canMove(Direction.S))
+                        dir = Direction.S;
+                }
             }
         }
+        if(vector[0] > 0){
+            if (canMove(Direction.E))
+                dir = Direction.E;
+            else{
+                if(vector[1] < 0){
+                    if(canMove(Direction.N))
+                        dir = Direction.N;
+                }
+                if(vector[1] > 0){
+                    if(canMove(Direction.S))
+                        dir = Direction.S;
+                }
+            }
+        }
+
+        if(vector[0] == 0){
+            if(vector[1] < 0){
+                if(canMove(Direction.N))
+                    dir = Direction.N;
+            }
+            if(vector[1] > 0){
+                if(canMove(Direction.S))
+                    dir = Direction.S;
+            }
+        }
+
+        if(dir == null){
+            dir = randomDirection();
+        }
+
         return dir;
     }
 
