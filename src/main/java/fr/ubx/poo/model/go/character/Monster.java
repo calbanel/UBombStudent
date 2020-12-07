@@ -10,6 +10,7 @@ import fr.ubx.poo.model.decor.Decor;
 public class Monster extends Alive {
 
     private long lastUpdate = 0;
+    private long speed;
 
     @Override
     public String toString() {
@@ -18,6 +19,15 @@ public class Monster extends Alive {
 
     public Monster(Game game, Position position, int currentLevel) {
         super(game, position, currentLevel, 1);
+        speed = speedCalcul(currentLevel);
+    }
+
+    private static long speedCalcul(int level){
+        long speed = 1500000000L;
+        for(int i = 1; i < level; i++){
+            speed = (long) (speed * 0.85); //for each level the time during each move of the monsters decrease of 15% -> (seconds) 1.5 | 1.27 | 1.08 | 0.92 | 0.78 | ...
+        }
+        return speed;
     }
 
     public void update(long now){
@@ -25,7 +35,7 @@ public class Monster extends Alive {
 
         if(!stuck) {
             Direction random = Direction.random();
-            if (now - lastUpdate >= 1500000000L) { // 1.5 seconds
+            if (now - lastUpdate >= speed) { // 1.5 seconds
                 while (!canMove(random))
                     random = Direction.random();
 
@@ -68,6 +78,7 @@ public class Monster extends Alive {
     private void walkOnPlayer(Player player){
         DamageOnPlayer damage = new DamageOnPlayer();
         damage.take(player);
+        System.out.println(speed);
     }
 
     public boolean isMonster() {return true;}
