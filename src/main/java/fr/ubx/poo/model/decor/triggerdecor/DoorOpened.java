@@ -11,4 +11,5 @@ public abstract class DoorOpened extends TriggerDecor{
     public boolean isDestructible(){
         return false;
     }
+    public boolean isOpenedDoor(){return true;}
 }

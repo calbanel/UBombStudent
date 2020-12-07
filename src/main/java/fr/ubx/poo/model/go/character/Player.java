@@ -198,15 +198,23 @@ public class Player extends Alive {
     }
 
     public void newBomb(){
-        if (bombs.size() < bombNb && !bombOnPlayerPos()) {
+        if (bombs.size() < bombNb && !bombOnIllegalPos()) {
             bombs.add(new Bomb(game, getPosition(), currentLevel, lastUpdate, bombRange));
             bombBag--;
         }
 
     }
 
-    private boolean bombOnPlayerPos(){
-        return bombs.stream().anyMatch(b-> b.getPosition().equals(getPosition()));
+    private boolean bombOnIllegalPos(){
+        boolean illegal = false;
+        if(bombs.stream().anyMatch(b-> b.getPosition().equals(getPosition()))){
+            illegal = true;
+        }
+        Decor decor = getCurrentWorld().get(getPosition());
+        if(decor != null && decor.isOpenedDoor()){
+            illegal = true;
+        }
+        return illegal;
     }
 
     public ArrayList<Bomb> getCurrentWorldBombs(){

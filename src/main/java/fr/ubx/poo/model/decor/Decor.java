@@ -29,6 +29,7 @@ public abstract class Decor extends Entity {
         return false;
     }
     public boolean isClosedDoor(){return false;}
+    public boolean isOpenedDoor(){return false;}
     public void hitByBomb(World world, Position position){
         if (isDestructible()){
             world.clear(position);

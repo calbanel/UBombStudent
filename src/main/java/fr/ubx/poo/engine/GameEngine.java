@@ -158,7 +158,7 @@ public final class GameEngine {
 
     private void render() {
         // refresh of decor sprites
-        if(game.getCurrentWorld().hasChanged() ||player.hasLevelChangement()) {
+        if(game.getCurrentWorld().hasChanged()) {
             sprites.forEach(Sprite::remove);
             sprites.clear();
 
@@ -167,7 +167,8 @@ public final class GameEngine {
             sprites.forEach(Sprite::render);
             game.getCurrentWorld().changeDone();
         }
-        // rendering of the monsters and player
+
+        // render the new world if the player change world
         if(player.hasLevelChangement()){
             sprites.clear();
             spritesAlive.clear();
@@ -177,6 +178,7 @@ public final class GameEngine {
             player.setLevelChangement(false);
         }
 
+        // rendering of the GameObject
         player.getCurrentWorldBombs().forEach(b -> spritesAlive.add(SpriteFactory.createGO(layer,b)));
         spritesAlive.forEach(Sprite::render);
 

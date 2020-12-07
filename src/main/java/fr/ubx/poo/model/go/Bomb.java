@@ -160,7 +160,8 @@ public class Bomb extends GameObject {
 
     private boolean decorTouch(Decor decor, Position nextPos){
         decor.hitByBomb(getCurrentWorld(), nextPos);
-        return !decor.canWalkOn();
+
+        return !decor.canWalkOn() || decor.isOpenedDoor();
     }
 
     public boolean isExplode(){
