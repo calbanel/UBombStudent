@@ -94,17 +94,16 @@ public class Game {
         return monsters;
     }
 
-    public GameObject getGameObjectAtPos(Position pos, World world){
-
+    public ArrayList<GameObject> getGameObjectAtPos(Position pos, World world){
+         ArrayList<GameObject> go = new ArrayList<>();
         if(player.getCurrentWorld().equals(world) && player.getPosition().equals(pos))
-            return player;
+            go.add(player);
 
-        Monster monster = monsters.stream().filter(m -> m.getCurrentWorld().equals(world) && m.getPosition().equals(pos)).findAny().orElse(null);
-        if(monster != null)
-            return monster;
+        monsters.stream().filter(m -> m.getCurrentWorld().equals(world) && m.getPosition().equals(pos)).forEach(m->go.add(m));
 
-        Bomb bomb = player.getCurrentWorldBombs().stream().filter(b -> b.getCurrentWorld().equals(world) && b.getPosition().equals(pos)).findAny().orElse(null);
-        return bomb;
+        player.getCurrentWorldBombs().stream().filter(b -> b.getCurrentWorld().equals(world) && b.getPosition().equals(pos)).forEach(b->go.add(b));
+
+        return go;
     }
 
     public void playerChangeLevel(int level,String door) {
@@ -116,5 +115,9 @@ public class Game {
             throw new RuntimeException(e);
         }
         player.setLevelChangement(true);
+    }
+
+    public int getNbWorlds() {
+        return nbWorlds;
     }
 }

@@ -5,6 +5,8 @@ import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.go.character.Alive;
 
+import java.util.ArrayList;
+
 public class Bomb extends GameObject {
 
     private final Timer timer;
@@ -103,9 +105,10 @@ public class Bomb extends GameObject {
         if (decor != null)
             obstacle = decorTouch(decor, pos);
 
-        GameObject go = game.getGameObjectAtPos(pos, getCurrentWorld());
-        if(go != null)
-            gameObjectTouch(go);
+        ArrayList<GameObject> go = game.getGameObjectAtPos(pos, getCurrentWorld());
+        if(!go.isEmpty()) {
+            go.forEach(this::gameObjectTouch);
+        }
 
         if(!obstacle && getCurrentWorld().isEmpty(pos))
             getCurrentWorld().set(pos, new Explosion());

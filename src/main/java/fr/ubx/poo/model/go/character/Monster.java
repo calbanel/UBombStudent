@@ -30,20 +30,50 @@ public class Monster extends Alive {
     }
 
     public void update(long now){
-        boolean stuck = stuck();
 
-        if(!stuck) {
-            Direction random = Direction.random();
+        Direction dir;
+
+        if(!stuck()) {
             if (now - lastUpdate >= speed) { // 1.5 seconds
-                while (!canMove(random))
-                    random = Direction.random();
+                if(game.getPlayer().getCurrentLevel() <= Math.ceil((double)game.getNbWorlds()/2)) {
+                    dir = randomDirection();
+                }
+                else {
+                    dir = focusPlayer();
+                }
 
-                this.direction = random;
-                doMove(random);
+                if(dir != null) {
+                    this.direction = dir;
+                    doMove(dir);
+                }
                 lastUpdate = now;
             }
         }
 
+    }
+
+    private Direction randomDirection(){
+        Direction dir = null;
+        while (!stuck()) {
+            dir = Direction.random();
+            if (canMove(dir)) {
+                break;
+            }
+        }
+        return dir;
+    }
+
+    private Direction focusPlayer(){
+        Direction dir = null;
+        Position playerPos = game.getPlayer().getPosition();
+        System.out.println(playerPos.hashCode());
+        while (true) {
+            dir = Direction.random();
+            if (canMove(dir)) {
+                break;
+            }
+        }
+        return dir;
     }
 
     private boolean stuck(){

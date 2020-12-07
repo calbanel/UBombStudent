@@ -152,8 +152,8 @@ public class Player extends Alive {
         if (!getCurrentWorld().isEmpty(nextPos))
             return false;
 
-        GameObject go = game.getGameObjectAtPos(nextPos, getCurrentWorld());
-        return go == null;
+        ArrayList<GameObject> go = game.getGameObjectAtPos(nextPos, getCurrentWorld());
+        return go.isEmpty();
     }
 
 
