@@ -1,14 +1,12 @@
 package fr.ubx.poo.model.go.character;
 
-import fr.ubx.poo.game.Direction;
-import fr.ubx.poo.game.Game;
-import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.*;
 import fr.ubx.poo.model.decor.Decor;
 
 public class Monster extends Alive {
 
     private long lastUpdate = 0;
-    private long speed;
+    private final long speed;
 
     @Override
     public String toString() {
